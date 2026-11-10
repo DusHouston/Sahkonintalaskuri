@@ -1,0 +1,50 @@
+:root{color-scheme:light;--sin:#0b3d91;--sin2:#e8f0fe;--teksti:#14213d;--harmaa:#5b6475;--raja:#dde3ee;--vihr:#0a7d4b;--keltainen:#ffc933}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--teksti);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+.kaari{max-width:880px;margin:0 auto;padding:0 16px}
+header.ylä{border-bottom:1px solid var(--raja);background:#fff}
+header.ylä .kaari{display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--sin);text-decoration:none;font-size:18px}
+.logo svg{width:24px;height:24px}
+nav a{color:var(--harmaa);text-decoration:none;margin-left:14px;font-size:14px}
+h1{font-size:clamp(26px,6vw,40px);line-height:1.15;margin:28px 0 8px;letter-spacing:-.02em}
+h2{font-size:22px;margin:32px 0 10px}
+.ingressi{color:var(--harmaa);margin:0 0 20px;font-size:17px}
+.kortti{border:1px solid var(--raja);border-radius:14px;padding:16px;background:#fff}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+input,select{width:100%;font:inherit;padding:11px 12px;border:1px solid #b9c3d6;border-radius:10px;background:#fff;color:var(--teksti)}
+input[type=checkbox]{width:auto;margin-right:8px;transform:scale(1.2)}
+.rivi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.valinta{display:flex;align-items:center;font-weight:500;margin:10px 0}
+.ohje{font-size:13px;color:var(--harmaa);margin:4px 0 0}
+.yhteenveto{margin:18px 0 8px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+.yhteenveto strong{font-size:20px;color:var(--sin)}
+.suodattimet{display:flex;gap:8px;overflow-x:auto;padding:6px 0 10px;-webkit-overflow-scrolling:touch}
+.suodattimet button{white-space:nowrap;border:1px solid var(--raja);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--teksti)}
+.suodattimet button.aktiivinen{background:var(--sin);border-color:var(--sin);color:#fff}
+.tulos{border:1px solid var(--raja);border-radius:14px;padding:14px 16px;margin:0 0 12px;background:#fff}
+.tulos.halvin{border:2px solid var(--vihr);background:#f4fbf7}
+.tulos-ylä{display:flex;align-items:center;gap:12px}
+.merkki{background:var(--vihr);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.sija{color:var(--harmaa);font-weight:700;min-width:24px}
+.tulos-nimi{flex:1;display:flex;flex-direction:column;line-height:1.25}
+.tulos-nimi span{color:var(--harmaa);font-size:14px}
+.tulos-hinta{text-align:right;line-height:1.2}
+.tulos-hinta strong{font-size:22px;display:block}
+.tulos-hinta span{font-size:12px;color:var(--harmaa)}
+.tiedot{list-style:none;padding:0;margin:10px 0 0;font-size:14px;color:var(--harmaa)}
+.tiedot li{margin:2px 0}
+.nappi{display:inline-block;margin-top:12px;background:var(--sin);color:#fff;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:10px}
+.tyhja{color:var(--harmaa)}
+.huomio{background:var(--sin2);border-radius:12px;padding:12px 14px;font-size:14px;margin:16px 0}
+footer{border-top:1px solid var(--raja);margin-top:40px;padding:20px 0 40px;font-size:13px;color:var(--harmaa)}
+footer a{color:var(--harmaa);margin-right:14px}
+details{margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+p,li{max-width:70ch}
+a{color:var(--sin)}
+[hidden]{display:none!important}
+.logo{font-size:16px;white-space:nowrap}
+nav a{margin-left:10px;font-size:13px}
+@media(max-width:400px){nav a[href="/kumppanuuslinkit/"]{display:none}}

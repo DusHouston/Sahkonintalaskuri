@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only"><meta name="theme-color" content="#ffffff">
+<title>Sähkönhintalaskuri – vertaile sähkösopimukset kulutuksesi mukaan</title><meta name="description" content="Laske vuosikustannus kiinteällä, pörssisähköllä, hybridillä ja toistaiseksi voimassa olevalla sähkösopimuksella oman kulutuksesi mukaan.">
+<link rel="canonical" href="https://xn--shknhintalaskuri-vnb04a.fi/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/tyylit.css">
+</head><body>
+<header class="ylä"><div class="kaari"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0b3d91"/><path d="M18 4 8 18h7l-2 10 11-15h-7z" fill="#ffc933"/></svg> Sähkönhintalaskuri</a>
+<nav><a href="/tietoa/">Tietoa</a><a href="/kumppanuuslinkit/">Kumppanuudet</a></nav></div></header>
+<main class="kaari">
+<h1>Paljonko sähkö maksaa sinulle vuodessa?</h1>
+<p class="ingressi">Syötä vuosikulutuksesi tai arvioi se muutamalla kysymyksellä. Näet heti sopimukset halvimmasta kalleimpaan.</p>
+
+<form id="lomake" class="kortti" onsubmit="return false">
+  <label for="tapa">Miten haluat laskea?</label>
+  <select id="tapa"><option value="arvio">Arvioi kulutukseni kysymysten avulla</option><option value="oma">Tiedän vuosikulutukseni</option></select>
+
+  <div id="omaosio" hidden>
+    <label for="kulutus">Vuosikulutus (kWh)</label>
+    <input id="kulutus" type="number" inputmode="numeric" min="0" step="100" value="5000">
+    <p class="ohje">Löydät luvun sähkölaskustasi tai verkkoyhtiön palvelusta (esim. Fingridin Datahub-tietoihin pohjautuvat palvelut).</p>
+  </div>
+
+  <div id="arvioosio">
+    <label for="asuntotyyppi">Asunto ja lämmitys</label>
+    <select id="asuntotyyppi">
+      <option value="kerrostalo">Kerrostalo</option>
+      <option value="rivi-kauko">Rivitalo (kaukolämpö tai maalämpö)</option>
+      <option value="rivi-sahko">Rivitalo (sähkölämmitys)</option>
+      <option value="oktalo-kauko">Omakotitalo (kaukolämpö, öljy, puu tms.)</option>
+      <option value="oktalo-pumppu">Omakotitalo (lämpöpumppu)</option>
+      <option value="oktalo-sahko">Omakotitalo (suora sähkölämmitys)</option>
+    </select>
+    <div class="rivi">
+      <div><label for="neliot">Pinta-ala (m²)</label><input id="neliot" type="number" inputmode="numeric" min="10" value="60"></div>
+      <div><label for="henkilot">Asukkaita</label><input id="henkilot" type="number" inputmode="numeric" min="1" value="2"></div>
+    </div>
+    <label class="valinta"><input id="sauna" type="checkbox">Sähkösauna</label>
+    <div id="saunaosio" hidden><label for="saunaKerrat">Saunomiskertoja viikossa</label><input id="saunaKerrat" type="number" inputmode="numeric" min="0" value="2"></div>
+    <label class="valinta"><input id="lattia" type="checkbox">Sähköinen lattialämmitys (esim. kylpyhuone)</label>
+    <label class="valinta"><input id="auto" type="checkbox">Sähköauto</label>
+    <div id="autoosio" hidden><label for="autoKm">Ajokilometrejä vuodessa</label><input id="autoKm" type="number" inputmode="numeric" min="0" step="1000" value="15000"></div>
+    <p class="ohje">Arvio on karkea. Tarkempi tulos syntyy, kun käytät oikeaa vuosikulutustasi.</p>
+  </div>
+
+  <details>
+    <summary>Lisäasetukset</summary>
+    <label for="spot">Oletettu pörssisähkön keskihinta (c/kWh)</label>
+    <input id="spot" type="number" inputmode="decimal" step="0.1" min="0">
+    <p class="ohje">Vaikuttaa pörssi- ja hybridisopimusten laskentaan. Oletuksena viimeisen 12 kuukauden keskihinta. Pörssihinta vaihtelee, joten tulos on arvio.</p>
+  </details>
+</form>
+
+<div class="yhteenveto"><span>Arvioitu kulutus</span><strong id="kulutusNaytto"></strong></div>
+<div class="suodattimet" role="group" aria-label="Sopimustyyppi">
+  <button class="aktiivinen" data-suodatin="kaikki">Kaikki</button>
+  <button data-suodatin="kiintea12">Kiinteä 12 kk</button>
+  <button data-suodatin="porssi">Pörssisähkö</button>
+  <button data-suodatin="hybridi">Hybridi</button>
+  <button data-suodatin="toistaiseksi">Toistaiseksi voimassa</button>
+</div>
+<div id="tulokset" aria-live="polite"></div>
+
+<div class="huomio">
+  Hinnat sisältävät arvonlisäveron ja ne on kerätty julkisista lähteistä <strong id="paivitetty"></strong>. Hinnat muuttuvat, ja osa on tarjoushintoja uusille asiakkaille. Siirtomaksu maksetaan erikseen verkkoyhtiölle eikä sisälly vertailuun. Järjestys perustuu laskettuun vuosikustannukseen, ei siihen, mistä saamme palkkion.
+</div>
+
+<h2>Miten laskenta toimii</h2>
+<p><strong>Kiinteä ja toistaiseksi voimassa oleva:</strong> vuosikulutus × energian hinta + 12 × perusmaksu. <strong>Pörssisähkö:</strong> vuosikulutus × (pörssihinnan keskiarvo + marginaali) + 12 × perusmaksu. <strong>Hybridi:</strong> talvikausi kiinteällä hinnalla ja kesäkausi pörssillä. Tarjousjaksojen edut (esim. ilmainen perusmaksu) huomioidaan ensimmäisen vuoden kustannuksessa.</p>
+<p>Pörssisähkön todellinen kustannus riippuu siitä, milloin kulutat. Sähkölämmitteisessä talossa kulutus painottuu kylmiin ja usein kalliimpiin tunteihin, joten säädä keskihintaa tarvittaessa ylöspäin.</p>
+</main>
+<script src="/sopimukset.js"></script><script src="/laskuri.js"></script>
+<footer><div class="kaari"><a href="/tietoa/">Tietoa sivustosta</a><a href="/kumppanuuslinkit/">Kumppanuuslinkit</a><a href="/tietosuoja/">Tietosuoja</a>
+<p>Sivusto sisältää kumppanuuslinkkejä. Laskelmat ovat arvioita eivätkä ole sitova tarjous. Tarkista aina lopulliset hinnat ja ehdot tarjoajalta.</p></div></footer>
+</body></html>

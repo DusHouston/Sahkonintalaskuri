@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://xn--shknhintalaskuri-vnb04a.fi/sitemap.xml
