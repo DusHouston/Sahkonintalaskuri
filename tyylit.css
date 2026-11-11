@@ -301,3 +301,43 @@ footer p{margin:10px 0;max-width:42ch}
 .hintarivi b{font-size:16px;color:var(--navy)}
 .hr-lisa{font-size:13px;color:var(--harmaa)}
 footer .logo svg{box-shadow:0 0 0 1px rgba(255,255,255,.18);border-radius:10px}
+.cta.toissij{background:#fff;color:var(--navy);border:1.5px solid var(--raja)}
+.cta.toissij:hover{background:var(--tausta)}
+/* Välilehdet */
+.valilehdet{display:inline-flex;gap:4px;background:#fff;border:1px solid var(--raja);border-radius:14px;padding:4px;margin:0 0 22px;box-shadow:var(--varjo);max-width:100%;overflow-x:auto}
+.valilehdet a{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:10px 16px;border-radius:10px;font-weight:700;font-size:15px;color:var(--teksti);text-decoration:none}
+.valilehdet a svg{width:18px;height:18px}
+.valilehdet a.aktiivinen{background:var(--navy);color:#fff}
+.valilehdet a:not(.aktiivinen):hover{background:var(--tausta)}
+/* Puhelinsivu */
+.pieni-sankari .sankari-sisus{padding-top:36px;padding-bottom:44px}
+.pieni-sankari h1{font-size:clamp(34px,6vw,54px)}
+.esivalinnat.yksi{grid-template-columns:1fr}
+.suodattimet.kaareva{flex-wrap:wrap;overflow:visible;padding-bottom:4px}
+.operaattorit{display:flex;flex-wrap:wrap;gap:6px}
+.valintanappi{position:relative}
+.valintanappi input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.valintanappi span{display:inline-block;padding:7px 13px;border:1.5px solid var(--raja);border-radius:99px;font-size:14px;font-weight:600;background:#fff}
+.valintanappi input:checked+span{background:var(--minttu-v);border-color:var(--minttu);color:var(--minttu-t)}
+.valintanappi input:focus-visible+span{outline:3px solid var(--sin);outline-offset:2px}
+.liittyma-paa{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.ominaisuudet{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 0;padding:12px;background:var(--tausta);border-radius:12px}
+.ominaisuudet div{font-size:12.5px;color:var(--harmaa);line-height:1.3}
+.ominaisuudet b{display:block;font-size:14.5px;color:var(--teksti);margin-top:2px}
+@media(max-width:520px){.ominaisuudet{grid-template-columns:1fr 1fr}}
+.kuukausihinta{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:12px 0 0}
+.kampanjahinta{font-weight:800;font-size:17px;color:var(--navy)}
+.jatkohinta{font-size:13.5px;color:var(--harmaa)}
+.nopeudet{display:grid;gap:14px}
+@media(min-width:760px){.nopeudet{grid-template-columns:repeat(3,1fr)}}
+.nopeus{border-radius:20px;padding:22px}
+.nopeus strong{display:block;font-size:24px;letter-spacing:-.02em}
+.nopeus h3{margin:8px 0 4px;font-size:18px}
+.nopeus p{margin:0;font-size:15px;color:#3d4c5c}
+.n1{background:var(--minttu-v)}.n1 strong{color:var(--minttu-t)}
+.n2{background:var(--sin-v)}.n2 strong{color:var(--sin)}
+.n3{background:var(--laventeli-v)}.n3 strong{color:var(--laventeli)}
+.navi .lyhyt{display:none}
+@media(max-width:680px){.navi .pitka{display:none}.navi .lyhyt{display:inline}}
+@media(max-width:420px){.navi a{padding:7px 7px;font-size:13.5px}.logo{font-size:16.5px;gap:7px}.logo svg{width:28px;height:28px}.yla .kaari{gap:6px}}
+@media(max-width:899px){.pieni-sankari .sankari-kuva{display:none}.pieni-sankari .sankari-sisus{padding-bottom:32px}}

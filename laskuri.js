@@ -3,7 +3,7 @@
   var $ = function (id) { return document.getElementById(id); };
   if (!$("tulokset")) return;
 
-  var TYYPIT = { kiintea12: "Kiinteä 12 kk", toistaiseksi: "Kiinteä, toistaiseksi", porssi: "Pörssisähkö", hybridi: "Hybridi" };
+  var TYYPIT = { kiintea12: "Kiinteä 12 kk", kiintea24: "Kiinteä 24 kk", toistaiseksi: "Kiinteä, toistaiseksi", porssi: "Pörssisähkö", hybridi: "Hybridi" };
   var MIN = 500, MAX = 30000;
   var tila = { kwh: 2000, suodatin: "kaikki", jarjestys: "eka", kaikki: false };
   var NAYTA = 6;
@@ -16,14 +16,22 @@
   function liukuKwh(v) { var t = v / 1000; return Math.round((MIN + (MAX - MIN) * t * t) / 100) * 100; }
   function kwhLiuku(k) { var t = Math.sqrt(Math.max(0, (k - MIN) / (MAX - MIN))); return Math.round(Math.min(1, t) * 1000); }
 
+  /* Tarjousjaksot: vaiheet [{asti, maksu?, marginaali?, hinta?}] */
+  window.SOPIMUKSET.forEach(function (c) {
+    if (c.vaiheet && c.vaiheet.length) {
+      var v = c.vaiheet[0];
+      c.alku = { kk: c.vaiheet[c.vaiheet.length - 1].asti, maksu: v.maksu, marginaali: v.marginaali, ekaKk: v.asti };
+    }
+  });
   function kuukausihinta(c, kk, spot, alkuKaytossa) {
-    var a = alkuKaytossa && c.alku && kk <= c.alku.kk ? c.alku : null;
+    var a = null;
+    if (alkuKaytossa && c.vaiheet) for (var i = 0; i < c.vaiheet.length; i++) { if (kk <= c.vaiheet[i].asti) { a = c.vaiheet[i]; break; } }
     var maksu = a && a.maksu !== undefined ? a.maksu : c.maksu;
     var marg = a && a.marginaali !== undefined ? a.marginaali : c.marginaali;
     var snt;
     if (c.tyyppi === "porssi") snt = spot + marg;
     else if (c.tyyppi === "hybridi") snt = c.talviOsuus * c.talviHinta + (1 - c.talviOsuus) * (spot + marg);
-    else snt = c.hinta;
+    else snt = a && a.hinta !== undefined ? a.hinta : c.hinta;
     return { snt: snt, maksu: maksu };
   }
 
@@ -97,7 +105,7 @@
         : d2(c.hinta) + " snt/kWh";
       var alkuMarg = c.alku && c.alku.marginaali !== undefined;
       var hintarivi = c.tyyppi === "porssi"
-        ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(alkuMarg ? c.alku.marginaali : c.marginaali) + ' snt/kWh</b>' + (alkuMarg ? '<span class="hr-lisa">ensimmäiset ' + c.alku.kk + ' kk, sen jälkeen ' + d2(c.marginaali) + ' snt</span>' : '<span class="hr-lisa">+ pörssihinta</span>') + '</div>'
+        ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(alkuMarg ? c.alku.marginaali : c.marginaali) + ' snt/kWh</b>' + (alkuMarg ? '<span class="hr-lisa">ensimmäiset ' + c.alku.ekaKk + ' kk, sen jälkeen ' + d2(c.marginaali) + ' snt</span>' : '<span class="hr-lisa">+ pörssihinta</span>') + '</div>'
         : c.tyyppi === "hybridi"
         ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(c.marginaali) + ' snt/kWh</b><span class="hr-lisa">kesällä + pörssihinta, talvella kiinteä ' + d2(c.talviHinta) + ' snt</span></div>'
         : '<div class="hintarivi"><span class="hr-otsake">Energian hinta</span><b>' + d2(c.hinta) + ' snt/kWh</b><span class="hr-lisa">kiinteä</span></div>';
@@ -111,7 +119,7 @@
       var jatkoEro = Math.abs(r.jatko.yht - r.eka.yht) >= 1;
       var cta = c.linkki
         ? '<a class="cta" href="' + esc(c.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a>'
-        : '<span class="ei-linkkia">Tilaus tarjoajan omilta sivuilta</span>';
+        : (c.url ? '<a class="cta toissij" href="' + esc(c.url) + '" target="_blank" rel="nofollow noopener">Tarjoajan sivuille <span aria-hidden="true">↗</span></a>' : '<span class="ei-linkkia">Tilaus tarjoajan omilta sivuilta</span>');
       var tiedot = [];
       tiedot.push("Energian hinta: " + hintaTxt);
       tiedot.push("Perusmaksu: " + d2(c.maksu) + " €/kk" + (c.alku && c.alku.maksu !== undefined ? " (tarjousjaksolla " + d2(c.alku.maksu) + " €/kk)" : ""));
