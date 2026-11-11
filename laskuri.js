@@ -5,7 +5,8 @@
 
   var TYYPIT = { kiintea12: "Kiinteä 12 kk", toistaiseksi: "Kiinteä, toistaiseksi", porssi: "Pörssisähkö", hybridi: "Hybridi" };
   var MIN = 500, MAX = 30000;
-  var tila = { kwh: 2000, suodatin: "kaikki", jarjestys: "eka" };
+  var tila = { kwh: 2000, suodatin: "kaikki", jarjestys: "eka", kaikki: false };
+  var NAYTA = 6;
 
   function e(n) { return Math.round(n).toLocaleString("fi-FI"); }
   function d2(n) { return n.toLocaleString("fi-FI", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -87,7 +88,8 @@
     if (!kwh || !rivit.length) { el.innerHTML = '<div class="tyhja">Valitse kulutus nähdäksesi vertailun.</div>'; return; }
     var halvin = Math.min.apply(null, rivit.map(function (r) { return avain === "jatko" ? r.jatko.yht : r.eka.yht; }));
 
-    el.innerHTML = rivit.map(function (r, i) {
+    var naytettavat = tila.kaikki ? rivit : rivit.slice(0, NAYTA);
+    el.innerHTML = naytettavat.map(function (r, i) {
       var c = r.c, paaHinta = avain === "jatko" ? r.jatko : r.eka;
       var tyyppiLuokka = c.tyyppi === "porssi" || c.tyyppi === "hybridi" ? "porssi" : "kiintea";
       var hintaTxt = c.tyyppi === "porssi" ? "Pörssihinta + " + d2(c.marginaali) + " snt/kWh"
@@ -118,10 +120,15 @@
         '<div class="erittely"><div>Energia<b>' + e(paaHinta.energia) + ' €/v</b></div><div>Perusmaksut<b>' + e(paaHinta.maksut) + ' €/v</b></div><div>Keskihinta<b>' + d2(paaHinta.yht / kwh * 100) + ' snt/kWh</b></div></div>' +
         '<details><summary>Näin hinta laskettiin</summary><ul><li>' + tiedot.join("</li><li>") + '</li></ul></details>' +
         '<div class="tulos-ala"><span class="ero">' + eroTxt + '</span>' + cta + '</div></article>';
-    }).join("") + (piilotetut ? '<p class="pieni">' + piilotetut + ' sopimusta piilotettu, koska niillä on kulutusraja, jonka kulutuksesi ylittää.</p>' : "");
+    }).join("") + (rivit.length > NAYTA ? '<button type="button" class="nayta-lisaa" id="naytaLisaa">' + (tila.kaikki ? "Näytä vähemmän" : "Näytä kaikki " + rivit.length + " sopimusta") + '</button>' : "") + (piilotetut ? '<p class="pieni">' + piilotetut + ' sopimusta piilotettu, koska niillä on kulutusraja, jonka kulutuksesi ylittää.</p>' : "");
   }
 
   /* Tapahtumat */
+  $("tulokset").addEventListener("click", function (ev) {
+    if (ev.target.id !== "naytaLisaa") return;
+    tila.kaikki = !tila.kaikki; paivita();
+    if (!tila.kaikki) $("tulosalue").scrollIntoView({ behavior: "smooth" });
+  });
   $("liuku").addEventListener("input", function () { asetaKwh(liukuKwh(+this.value), "liuku"); });
   $("kwh").addEventListener("input", function () { asetaKwh(this.value, "kentta"); });
   document.querySelectorAll(".esivalinnat button").forEach(function (b) {
@@ -151,4 +158,13 @@
   var pv = new Date(window.SOPIMUKSET_PAIVITETTY).toLocaleDateString("fi-FI");
   document.querySelectorAll("[data-paivitetty]").forEach(function (x) { x.textContent = pv; });
   asetaKwh(tila.kwh);
+
+  /* Mobiilin kelluva painike: näkyy, kun laskuri ei ole näkyvissä */
+  var tarra = $("tarra"), osio = $("laskuri");
+  if (tarra && osio && "IntersectionObserver" in window) {
+    var nakyvissa = true, ohitettu = false;
+    new IntersectionObserver(function (m) { nakyvissa = m[0].isIntersecting; paivitaTarra(); }).observe(osio);
+    window.addEventListener("scroll", function () { ohitettu = window.scrollY > 400; paivitaTarra(); }, { passive: true });
+    function paivitaTarra() { tarra.classList.toggle("nakyy", !nakyvissa && ohitettu); }
+  }
 })();
