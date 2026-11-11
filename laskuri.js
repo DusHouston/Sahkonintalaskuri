@@ -95,6 +95,12 @@
       var hintaTxt = c.tyyppi === "porssi" ? "Pörssihinta + " + d2(c.marginaali) + " snt/kWh"
         : c.tyyppi === "hybridi" ? "Talvi " + d2(c.talviHinta) + " snt, kesä pörssi + " + d2(c.marginaali) + " snt"
         : d2(c.hinta) + " snt/kWh";
+      var alkuMarg = c.alku && c.alku.marginaali !== undefined;
+      var hintarivi = c.tyyppi === "porssi"
+        ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(alkuMarg ? c.alku.marginaali : c.marginaali) + ' snt/kWh</b>' + (alkuMarg ? '<span class="hr-lisa">ensimmäiset ' + c.alku.kk + ' kk, sen jälkeen ' + d2(c.marginaali) + ' snt</span>' : '<span class="hr-lisa">+ pörssihinta</span>') + '</div>'
+        : c.tyyppi === "hybridi"
+        ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(c.marginaali) + ' snt/kWh</b><span class="hr-lisa">kesällä + pörssihinta, talvella kiinteä ' + d2(c.talviHinta) + ' snt</span></div>'
+        : '<div class="hintarivi"><span class="hr-otsake">Energian hinta</span><b>' + d2(c.hinta) + ' snt/kWh</b><span class="hr-lisa">kiinteä</span></div>';
       var merkit = '<span class="merkki ' + tyyppiLuokka + '">' + TYYPIT[c.tyyppi] + '</span>' +
         '<span class="merkki">Kesto: ' + esc(c.kesto) + '</span>' +
         (c.alku ? '<span class="merkki">Tarjousjakso ' + c.alku.kk + ' kk</span>' : "") +
@@ -115,7 +121,7 @@
       if (c.huom) tiedot.push(esc(c.huom));
       return '<article class="tulos' + (i === 0 ? " paras" : "") + '">' +
         (i === 0 ? '<span class="nauha">Edullisin</span>' : "") +
-        '<div class="tulos-paa"><div><div class="tarjoaja">' + esc(c.tarjoaja) + '</div><div class="sopimus">' + esc(c.nimi) + '</div><div class="merkit">' + merkit + '</div></div>' +
+        '<div class="tulos-paa"><div><div class="tarjoaja">' + esc(c.tarjoaja) + '</div><div class="sopimus">' + esc(c.nimi) + '</div>' + hintarivi + '<div class="merkit">' + merkit + '</div></div>' +
         '<div class="hinta"><strong>' + e(paaHinta.yht) + ' €</strong><span>' + (avain === "jatko" ? "vuodessa jatkossa" : "ensimmäinen vuosi") + '<br>≈ ' + e(paaHinta.yht / 12) + ' €/kk</span></div></div>' +
         '<div class="erittely"><div>Energia<b>' + e(paaHinta.energia) + ' €/v</b></div><div>Perusmaksut<b>' + e(paaHinta.maksut) + ' €/v</b></div><div>Keskihinta<b>' + d2(paaHinta.yht / kwh * 100) + ' snt/kWh</b></div></div>' +
         '<details><summary>Näin hinta laskettiin</summary><ul><li>' + tiedot.join("</li><li>") + '</li></ul></details>' +
@@ -145,6 +151,17 @@
   });
   $("jarjestys").addEventListener("change", function () { tila.jarjestys = this.value; paivita(); });
   $("spot").addEventListener("input", paivita);
+  function paivitaPikkuliuku(id, ulos, muoto) {
+    var el = $(id), max = +el.max || 1;
+    el.style.setProperty("--tayttö", (el.value / max * 100) + "%");
+    $(ulos).textContent = muoto(+el.value);
+  }
+  var saunaMuoto = function (v) { return v === 1 ? "1 kerta" : v + " kertaa"; };
+  var autoMuoto = function (v) { return e(v) + " km"; };
+  $("saunaKerrat").addEventListener("input", function () { paivitaPikkuliuku("saunaKerrat", "saunaArvo", saunaMuoto); });
+  $("autoKm").addEventListener("input", function () { paivitaPikkuliuku("autoKm", "autoArvo", autoMuoto); });
+  paivitaPikkuliuku("saunaKerrat", "saunaArvo", saunaMuoto);
+  paivitaPikkuliuku("autoKm", "autoArvo", autoMuoto);
   ["sauna", "auto"].forEach(function (id) {
     $(id).addEventListener("change", function () { $(id + "Osio").hidden = !this.checked; });
   });
