@@ -1,75 +1,138 @@
 <!doctype html>
-<html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light only"><meta name="theme-color" content="#ffffff">
-<title>Sähkölaskuri – vertaile sähkösopimukset kulutuksesi mukaan | Laskuremppa</title><meta name="description" content="Laske vuosikustannus kiinteällä, pörssisähköllä, hybridillä ja toistaiseksi voimassa olevalla sähkösopimuksella oman kulutuksesi mukaan.">
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#ffffff">
+<title>Sähkölaskuri 2026 – vertaa sähkösopimukset kulutuksesi mukaan | Laskuremppa</title>
+<meta name="description" content="Laske sähkön vuosikustannus omalla kulutuksellasi. Vertaa pörssisähkö, kiinteä 12 kk, hybridi ja toistaiseksi voimassa olevat sopimukset. Maksuton, ei rekisteröitymistä.">
 <link rel="canonical" href="https://laskuremppa.fi/">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/tyylit.css">
-</head><body>
-<header class="ylä"><div class="kaari"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0b3d91"/><path d="M18 4 8 18h7l-2 10 11-15h-7z" fill="#ffc933"/></svg> Laskuremppa</a>
-<nav><a href="/tietoa/">Tietoa</a><a href="/kumppanuuslinkit/">Kumppanuudet</a></nav></div></header>
-<main class="kaari">
-<h1>Paljonko sähkö maksaa sinulle vuodessa?</h1>
-<p class="ingressi">Syötä vuosikulutuksesi tai arvioi se muutamalla kysymyksellä. Näet heti sopimukset halvimmasta kalleimpaan.</p>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Laskuremppa">
+<meta property="og:title" content="Sähkölaskuri 2026 – vertaa sähkösopimukset kulutuksesi mukaan | Laskuremppa">
+<meta property="og:description" content="Laske sähkön vuosikustannus omalla kulutuksellasi. Vertaa pörssisähkö, kiinteä 12 kk, hybridi ja toistaiseksi voimassa olevat sopimukset. Maksuton, ei rekisteröitymistä.">
+<meta property="og:url" content="https://laskuremppa.fi/">
+<meta property="og:locale" content="fi_FI">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tyylit.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Laskuremppa","url":"https://laskuremppa.fi/","inLanguage":"fi"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Mitä laskurin tulos sisältää?","acceptedAnswer":{"@type":"Answer","text":"Tulos sisältää sähköenergian hinnan ja sähkönmyyjän perusmaksut arvonlisäveroineen. Sähkönsiirto ja sähkövero laskutetaan oman alueesi verkkoyhtiön kautta, eivätkä ne riipu siitä, minkä sähkönmyyjän valitset. Siksi ne eivät ole mukana vertailussa."}},{"@type":"Question","name":"Miten pörssisähkön hinta arvioidaan?","acceptedAnswer":{"@type":"Answer","text":"Pörssisähkön hinta vaihtelee 15 minuutin jaksoissa. Laskuri käyttää oletuksena viimeisen 12 kuukauden keskihintaa, jota voit muuttaa kohdasta Lisäasetukset. Todellinen kustannus riippuu siitä, milloin kulutat sähköä."}},{"@type":"Question","name":"Mistä näen oman vuosikulutukseni?","acceptedAnswer":{"@type":"Answer","text":"Näet kulutuksesi sähkölaskusta, verkkoyhtiösi verkkopalvelusta tai Fingridin Oma Datahub -palvelusta (oma.datahub.fi), johon kirjaudutaan pankkitunnuksilla."}},{"@type":"Question","name":"Maksaako sähkösopimuksen vaihtaminen?","acceptedAnswer":{"@type":"Answer","text":"Ei. Myyjän vaihtaminen on maksutonta, ja uusi myyjä hoitaa yleensä vanhan sopimuksen irtisanomisen puolestasi. Määräaikaista sopimusta ei kuitenkaan yleensä voi päättää kesken kauden ilman hyväksyttävää syytä."}},{"@type":"Question","name":"Vaikuttaako palkkio vertailun järjestykseen?","acceptedAnswer":{"@type":"Answer","text":"Ei. Järjestys perustuu aina laskettuun kustannukseen valitsemallasi kulutuksella. Kumppanuuslinkit on merkitty, ja osalla sopimuksista linkkiä ei ole lainkaan."}}]}</script>
+</head>
+<body>
+<a class="ohita" href="#sisalto">Siirry sisältöön</a>
+<header class="yla"><div class="kaari">
+<a class="logo" href="/" aria-label="Laskuremppa – etusivu"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f2a44"/><path d="M7 10.5l6.5 6.5 4-4 7.5 7.5" fill="none" stroke="#3ddc97" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 20.5h6v-6" fill="none" stroke="#3ddc97" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Laskuremppa</a>
+<nav class="navi" aria-label="Päävalikko"><a href="/" aria-current="page">Sähkölaskuri</a><a href="/oppaat/">Oppaat</a><a href="/menetelma/" class="vain-iso">Näin vertailemme</a></nav>
+</div></header>
+<main id="sisalto">
 
-<form id="lomake" class="kortti" onsubmit="return false">
-  <label for="tapa">Miten haluat laskea?</label>
-  <select id="tapa"><option value="arvio">Arvioi kulutukseni kysymysten avulla</option><option value="oma">Tiedän vuosikulutukseni</option></select>
+<section class="kansi"><div class="kaari">
+<h1>Laske, paljonko sähkö maksaa sinulle vuodessa</h1>
+<p class="ingressi">Valitse kulutuksesi liukusäätimellä ja näe sähkösopimukset edullisimmasta kalleimpaan: kiinteät, pörssisähkö ja hybridit samassa vertailussa.</p>
+<ul class="luottamus">
+<li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10.5 8.5 14 15 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Järjestys hinnan mukaan, ei palkkion</li>
+<li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10.5 8.5 14 15 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Hinnat tarkistettu <span data-paivitetty>11.11.2026</span></li>
+<li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10.5 8.5 14 15 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ei rekisteröitymistä, tiedot pysyvät selaimessasi</li>
+</ul>
+</div></section>
 
-  <div id="omaosio" hidden>
-    <label for="kulutus">Vuosikulutus (kWh)</label>
-    <input id="kulutus" type="number" inputmode="numeric" min="0" step="100" value="5000">
-    <p class="ohje">Löydät luvun sähkölaskustasi tai verkkoyhtiön palvelusta (esim. Fingridin Datahub-tietoihin pohjautuvat palvelut).</p>
-  </div>
+<div class="kaari">
+<div class="laskuri">
+<form class="paneeli" onsubmit="return false" aria-label="Sähkönkulutus">
+<p class="vaihe">Vaihe 1</p>
+<h2>Valitse vuosikulutuksesi</h2>
+<div class="esivalinnat" role="group" aria-label="Tyypilliset kulutukset">
+<button type="button" data-kwh="2000"><strong>Kerrostalo</strong><span>Kaukolämpö<br>2&nbsp;000&nbsp;kWh</span></button>
+<button type="button" data-kwh="5500"><strong>Pientalo</strong><span>Ei sähkölämmitystä<br>5&nbsp;500&nbsp;kWh</span></button>
+<button type="button" data-kwh="11000"><strong>Rivitalo</strong><span>Sähkölämmitys<br>11&nbsp;000&nbsp;kWh</span></button>
+<button type="button" data-kwh="18000"><strong>Omakotitalo</strong><span>Sähkölämmitys<br>18&nbsp;000&nbsp;kWh</span></button>
+</div>
+<div class="kulutus-arvo"><label for="kwh">Kulutus</label><span class="kulutus-kentta"><input id="kwh" type="number" inputmode="numeric" min="0" step="100" value="2000"><span>kWh/v</span></span></div>
+<input id="liuku" type="range" min="0" max="1000" step="1" value="200" aria-label="Vuosikulutus liukusäätimellä">
+<div class="asteikko"><span>500</span><span>5 000</span><span>15 000</span><span>30 000 kWh</span></div>
+<p class="kuukausittain" id="kuukausittain"></p>
 
-  <div id="arvioosio">
-    <label for="asuntotyyppi">Asunto ja lämmitys</label>
-    <select id="asuntotyyppi">
-      <option value="kerrostalo">Kerrostalo</option>
-      <option value="rivi-kauko">Rivitalo (kaukolämpö tai maalämpö)</option>
-      <option value="rivi-sahko">Rivitalo (sähkölämmitys)</option>
-      <option value="oktalo-kauko">Omakotitalo (kaukolämpö, öljy, puu tms.)</option>
-      <option value="oktalo-pumppu">Omakotitalo (lämpöpumppu)</option>
-      <option value="oktalo-sahko">Omakotitalo (suora sähkölämmitys)</option>
-    </select>
-    <div class="rivi">
-      <div><label for="neliot">Pinta-ala (m²)</label><input id="neliot" type="number" inputmode="numeric" min="10" value="60"></div>
-      <div><label for="henkilot">Asukkaita</label><input id="henkilot" type="number" inputmode="numeric" min="1" value="2"></div>
-    </div>
-    <label class="valinta"><input id="sauna" type="checkbox">Sähkösauna</label>
-    <div id="saunaosio" hidden><label for="saunaKerrat">Saunomiskertoja viikossa</label><input id="saunaKerrat" type="number" inputmode="numeric" min="0" value="2"></div>
-    <label class="valinta"><input id="lattia" type="checkbox">Sähköinen lattialämmitys (esim. kylpyhuone)</label>
-    <label class="valinta"><input id="auto" type="checkbox">Sähköauto</label>
-    <div id="autoosio" hidden><label for="autoKm">Ajokilometrejä vuodessa</label><input id="autoKm" type="number" inputmode="numeric" min="0" step="1000" value="15000"></div>
-    <p class="ohje">Arvio on karkea. Tarkempi tulos syntyy, kun käytät oikeaa vuosikulutustasi.</p>
-  </div>
+<details class="arvio">
+<summary>En tiedä kulutustani – arvioi se</summary>
+<label class="k" for="asunto">Asunto ja lämmitys</label>
+<select id="asunto">
+<option value="kerrostalo">Kerrostalo</option>
+<option value="rivi-kauko">Rivitalo, kauko- tai maalämpö</option>
+<option value="rivi-sahko">Rivitalo, sähkölämmitys</option>
+<option value="okt-kauko">Omakotitalo, kaukolämpö, öljy tai puu</option>
+<option value="okt-pumppu">Omakotitalo, lämpöpumppu</option>
+<option value="okt-sahko">Omakotitalo, suora sähkölämmitys</option>
+</select>
+<div class="rivi2"><div><label class="k" for="m2">Pinta-ala (m²)</label><input id="m2" type="number" inputmode="numeric" min="10" value="60"></div>
+<div><label class="k" for="hlo">Asukkaita</label><input id="hlo" type="number" inputmode="numeric" min="1" value="2"></div></div>
+<label class="valinta"><input id="sauna" type="checkbox">Sähkökiuas</label>
+<div id="saunaOsio" hidden><label class="k" for="saunaKerrat">Saunomiskertoja viikossa</label><input id="saunaKerrat" type="number" inputmode="numeric" min="0" value="2"></div>
+<label class="valinta"><input id="lattia" type="checkbox">Sähköinen lattialämmitys</label>
+<label class="valinta"><input id="auto" type="checkbox">Sähköauton lataus kotona</label>
+<div id="autoOsio" hidden><label class="k" for="autoKm">Ajokilometrit vuodessa</label><input id="autoKm" type="number" inputmode="numeric" min="0" step="1000" value="15000"></div>
+<button type="button" class="nappi-toissij" id="kayta-arvio">Käytä arviota</button>
+<p class="pieni" id="arvioTulos">Arvio on suuntaa antava. Tarkin tulos syntyy toteutuneella kulutuksella.</p>
+</details>
 
-  <details>
-    <summary>Lisäasetukset</summary>
-    <label for="spot">Oletettu pörssisähkön keskihinta (c/kWh)</label>
-    <input id="spot" type="number" inputmode="decimal" step="0.1" min="0">
-    <p class="ohje">Vaikuttaa pörssi- ja hybridisopimusten laskentaan. Oletuksena viimeisen 12 kuukauden keskihinta. Pörssihinta vaihtelee, joten tulos on arvio.</p>
-  </details>
+<details class="arvio">
+<summary>Lisäasetukset</summary>
+<label class="k" for="spot">Pörssisähkön keskihinta-arvio (snt/kWh, sis. alv)</label>
+<input id="spot" type="text" inputmode="decimal">
+<p class="pieni">Oletuksena viimeisen 12 kuukauden keskihinta. Sähkölämmitteisessä talossa kulutus painottuu talveen, jolloin hinta on usein korkeampi: nosta arviota tarvittaessa.</p>
+</details>
 </form>
 
-<div class="yhteenveto"><span>Arvioitu kulutus</span><strong id="kulutusNaytto"></strong></div>
+<section id="tulosalue" aria-live="polite">
+<div class="tulosotsake"><div><p class="vaihe">Vaihe 2</p><h2>Vertailu</h2><p class="pieni" id="tulosmaara"></p></div>
+<label><span class="ohita">Järjestys</span><select id="jarjestys"><option value="eka">Halvin ensimmäinen vuosi</option><option value="jatko">Halvin tarjousjakson jälkeen</option><option value="maksu">Pienin perusmaksu</option></select></label></div>
 <div class="suodattimet" role="group" aria-label="Sopimustyyppi">
-  <button class="aktiivinen" data-suodatin="kaikki">Kaikki</button>
-  <button data-suodatin="kiintea12">Kiinteä 12 kk</button>
-  <button data-suodatin="porssi">Pörssisähkö</button>
-  <button data-suodatin="hybridi">Hybridi</button>
-  <button data-suodatin="toistaiseksi">Toistaiseksi voimassa</button>
+<button class="aktiivinen" aria-pressed="true" data-suodatin="kaikki">Kaikki</button>
+<button aria-pressed="false" data-suodatin="porssi">Pörssisähkö</button>
+<button aria-pressed="false" data-suodatin="kiintea12">Kiinteä 12 kk</button>
+<button aria-pressed="false" data-suodatin="hybridi">Hybridi</button>
+<button aria-pressed="false" data-suodatin="toistaiseksi">Kiinteä, toistaiseksi</button>
 </div>
-<div id="tulokset" aria-live="polite"></div>
-
-<div class="huomio">
-  Hinnat sisältävät arvonlisäveron ja ne on kerätty julkisista lähteistä <strong id="paivitetty"></strong>. Hinnat muuttuvat, ja osa on tarjoushintoja uusille asiakkaille. Siirtomaksu maksetaan erikseen verkkoyhtiölle eikä sisälly vertailuun. Järjestys perustuu laskettuun vuosikustannukseen, ei siihen, mistä saamme palkkion.
+<div id="tulokset"><div class="tyhja">Laskuri vaatii JavaScriptin.</div></div>
+<div class="ilmoitus"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M10 9v5M10 6.2v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div>Hinnat sisältävät arvonlisäveron ja ne on tarkistettu <strong data-paivitetty>11.11.2026</strong>. Ensimmäisen vuoden hinnassa on mukana tarjousjaksojen edut. Sähkönsiirto ja sähkövero maksetaan verkkoyhtiölle, eivätkä ne riipu myyjästä. <a href="/menetelma/">Näin vertailemme</a></div></div>
+</section>
+</div>
 </div>
 
-<h2>Miten laskenta toimii</h2>
-<p><strong>Kiinteä ja toistaiseksi voimassa oleva:</strong> vuosikulutus × energian hinta + 12 × perusmaksu. <strong>Pörssisähkö:</strong> vuosikulutus × (pörssihinnan keskiarvo + marginaali) + 12 × perusmaksu. <strong>Hybridi:</strong> talvikausi kiinteällä hinnalla ja kesäkausi pörssillä. Tarjousjaksojen edut (esim. ilmainen perusmaksu) huomioidaan ensimmäisen vuoden kustannuksessa.</p>
-<p>Pörssisähkön todellinen kustannus riippuu siitä, milloin kulutat. Sähkölämmitteisessä talossa kulutus painottuu kylmiin ja usein kalliimpiin tunteihin, joten säädä keskihintaa tarvittaessa ylöspäin.</p>
+<section class="osio"><div class="kaari">
+<h2>Sähkösopimuksen vaihto kolmessa vaiheessa</h2>
+<p class="alaotsikko">Vaihtaminen on maksutonta, eikä sähkö katkea vaihdon aikana.</p>
+<ol class="askeleet">
+<li><strong>Tarkista kulutuksesi</strong><span>Katso vuosikulutus sähkölaskusta tai Oma Datahub -palvelusta ja syötä se laskuriin.</span></li>
+<li><strong>Valitse sopimus</strong><span>Vertaa ensimmäisen vuoden ja tarjousjakson jälkeistä hintaa sekä sopimuksen kestoa.</span></li>
+<li><strong>Tee sopimus</strong><span>Uusi myyjä irtisanoo yleensä vanhan sopimuksesi. Toimitus alkaa tavallisesti noin kahden viikon kuluttua.</span></li>
+</ol>
+<p class="lisaa"><a href="/oppaat/sahkosopimuksen-vaihtaminen/">Lue tarkka ohje sähkösopimuksen vaihtamisesta →</a></p>
+</div></section>
+
+<section class="osio"><div class="kaari">
+<h2>Oppaat kuukausilaskujen pienentämiseen</h2>
+<p class="alaotsikko">Selkeät ohjeet sähkö-, puhelin- ja muiden kuukausilaskujen kilpailuttamiseen.</p>
+<div class="ruudukko kolme">
+<a class="kortti" href="/oppaat/kuukausilaskujen-kilpailutus/"><h3>Kuukausilaskujen kilpailutus: näin säästät satoja euroja vuodessa</h3><p>Sähkö, puhelinliittymä, laajakaista ja vakuutukset: mitkä laskut voi kilpailuttaa, kuinka usein se kannattaa tehdä ja mihin pitää kiinnittää huomiota.</p><span class="lue">Lue opas →</span></a><a class="kortti" href="/oppaat/porssisahko-vai-kiintea/"><h3>Pörssisähkö vai kiinteä sähkösopimus – kumpi kannattaa?</h3><p>Pörssisähkön, kiinteän ja hybridisopimuksen erot selkeästi: miten hinta muodostuu, kenelle kukin sopii ja miten valitset oikein.</p><span class="lue">Lue opas →</span></a><a class="kortti" href="/oppaat/sahkosopimuksen-vaihtaminen/"><h3>Sähkösopimuksen vaihtaminen: näin se tehdään vaihe vaiheelta</h3><p>Miten sähkösopimus vaihdetaan, kauanko se kestää, voiko määräaikaisen sopimuksen irtisanoa ja mitä tapahtuu, kun sopimus päättyy.</p><span class="lue">Lue opas →</span></a><a class="kortti" href="/oppaat/sahkon-kulutus/"><h3>Paljonko sähköä kuluu? Kulutus kerrostalossa, rivitalossa ja omakotitalossa</h3><p>Tyypillinen sähkönkulutus asuntotyypin mukaan, mistä näet oman kulutuksesi ja mitkä laitteet kuluttavat eniten.</p><span class="lue">Lue opas →</span></a><a class="kortti" href="/oppaat/sahkolaskun-rakenne/"><h3>Mistä sähkölasku koostuu? Energia, siirto ja verot selitettynä</h3><p>Sähkölaskun osat selkeästi: sähköenergia, sähkönsiirto, sähkövero ja arvonlisävero. Mitkä osat voit kilpailuttaa ja mitkä et.</p><span class="lue">Lue opas →</span></a><a class="kortti" href="/oppaat/puhelinliittyman-kilpailutus/"><h3>Puhelinliittymän kilpailutus: näin vaihdat ja pidät numerosi</h3><p>Miten puhelin- ja laajakaistaliittymä kilpailutetaan, miten numeron siirto toimii ja milloin määräaikaisen liittymän voi päättää.</p><span class="lue">Lue opas →</span></a>
+</div>
+</div></section>
+
+<section class="osio ukk"><div class="kaari kapea">
+<h2>Usein kysyttyä</h2>
+<details><summary>Mitä laskurin tulos sisältää?</summary><p>Tulos sisältää sähköenergian hinnan ja sähkönmyyjän perusmaksut arvonlisäveroineen. Sähkönsiirto ja sähkövero laskutetaan oman alueesi verkkoyhtiön kautta, eivätkä ne riipu siitä, minkä sähkönmyyjän valitset. Siksi ne eivät ole mukana vertailussa.</p></details><details><summary>Miten pörssisähkön hinta arvioidaan?</summary><p>Pörssisähkön hinta vaihtelee 15 minuutin jaksoissa. Laskuri käyttää oletuksena viimeisen 12 kuukauden keskihintaa, jota voit muuttaa kohdasta Lisäasetukset. Todellinen kustannus riippuu siitä, milloin kulutat sähköä.</p></details><details><summary>Mistä näen oman vuosikulutukseni?</summary><p>Näet kulutuksesi sähkölaskusta, verkkoyhtiösi verkkopalvelusta tai Fingridin Oma Datahub -palvelusta (oma.datahub.fi), johon kirjaudutaan pankkitunnuksilla.</p></details><details><summary>Maksaako sähkösopimuksen vaihtaminen?</summary><p>Ei. Myyjän vaihtaminen on maksutonta, ja uusi myyjä hoitaa yleensä vanhan sopimuksen irtisanomisen puolestasi. Määräaikaista sopimusta ei kuitenkaan yleensä voi päättää kesken kauden ilman hyväksyttävää syytä.</p></details><details><summary>Vaikuttaako palkkio vertailun järjestykseen?</summary><p>Ei. Järjestys perustuu aina laskettuun kustannukseen valitsemallasi kulutuksella. Kumppanuuslinkit on merkitty, ja osalla sopimuksista linkkiä ei ole lainkaan.</p></details>
+</div></section>
+
 </main>
-<script src="/sopimukset.js"></script><script src="/laskuri.js"></script>
-<footer><div class="kaari"><a href="/tietoa/">Tietoa sivustosta</a><a href="/kumppanuuslinkit/">Kumppanuuslinkit</a><a href="/tietosuoja/">Tietosuoja</a>
-<p>Sivusto sisältää kumppanuuslinkkejä. Laskelmat ovat arvioita eivätkä ole sitova tarjous. Tarkista aina lopulliset hinnat ja ehdot tarjoajalta.</p></div></footer>
-</body></html>
+<footer><div class="kaari">
+<div><span class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f2a44"/><path d="M7 10.5l6.5 6.5 4-4 7.5 7.5" fill="none" stroke="#3ddc97" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 20.5h6v-6" fill="none" stroke="#3ddc97" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Laskuremppa</span>
+<p>Laskuremppa auttaa pienentämään kotitalouden kuukausilaskuja. Vertailu on maksuton, eikä se vaadi rekisteröitymistä.</p>
+<a href="mailto:info@laskuremppa.fi">info@laskuremppa.fi</a></div>
+<div><h2>Työkalut ja oppaat</h2><a href="/">Sähkölaskuri</a><a href="/oppaat/kuukausilaskujen-kilpailutus/">Kuukausilaskujen kilpailutus</a><a href="/oppaat/porssisahko-vai-kiintea/">Pörssisähkö vai kiinteä?</a><a href="/oppaat/sahkosopimuksen-vaihtaminen/">Sähkösopimuksen vaihtaminen</a><a href="/oppaat/sahkon-kulutus/">Paljonko sähköä kuluu?</a><a href="/oppaat/sahkolaskun-rakenne/">Sähkölaskun rakenne</a><a href="/oppaat/">Kaikki oppaat</a></div>
+<div><h2>Sivusto</h2><a href="/tietoa/">Tietoa sivustosta</a><a href="/menetelma/">Näin vertailemme</a><a href="/kumppanuuslinkit/">Kumppanuuslinkit</a><a href="/tietosuoja/">Tietosuoja</a></div>
+<p class="copy">© 2026 Laskuremppa. Sivusto sisältää kumppanuuslinkkejä. Laskelmat ovat arvioita, eivät sitovia tarjouksia. Tarkista lopulliset hinnat ja ehdot aina palveluntarjoajalta.</p>
+</div></footer>
+<script src="/sopimukset.js"></script>
+<script src="/laskuri.js"></script>
+</body>
+</html>

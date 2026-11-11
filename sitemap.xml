@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://laskuremppa.fi/</loc></url>
-<url><loc>https://laskuremppa.fi/tietoa/</loc></url>
-<url><loc>https://laskuremppa.fi/kumppanuuslinkit/</loc></url>
-<url><loc>https://laskuremppa.fi/tietosuoja/</loc></url>
+<url><loc>https://laskuremppa.fi/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/kuukausilaskujen-kilpailutus/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/porssisahko-vai-kiintea/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/sahkosopimuksen-vaihtaminen/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/sahkon-kulutus/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/sahkolaskun-rakenne/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/oppaat/puhelinliittyman-kilpailutus/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/menetelma/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/tietoa/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/kumppanuuslinkit/</loc><lastmod>2026-11-11</lastmod></url>
+<url><loc>https://laskuremppa.fi/tietosuoja/</loc><lastmod>2026-11-11</lastmod></url>
 </urlset>
