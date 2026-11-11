@@ -130,7 +130,7 @@
       return '<article class="tulos' + (i === 0 ? " paras" : "") + '">' +
         (i === 0 ? '<span class="nauha">Edullisin</span>' : "") +
         '<div class="tulos-paa"><div><div class="tarjoaja">' + esc(c.tarjoaja) + '</div><div class="sopimus">' + esc(c.nimi) + '</div>' + hintarivi + '<div class="merkit">' + merkit + '</div></div>' +
-        '<div class="hinta"><strong>' + e(paaHinta.yht) + ' €</strong><span>' + (avain === "jatko" ? "vuodessa jatkossa" : "ensimmäinen vuosi") + '<br>≈ ' + e(paaHinta.yht / 12) + ' €/kk</span></div></div>' +
+        '<div class="hinta"><strong>' + e(paaHinta.yht) + ' €</strong><span>' + (avain === "jatko" ? "vuodessa jatkossa" : "ensimmäinen vuosi") + '</span><em class="kk-hinta">≈ ' + e(paaHinta.yht / 12) + ' €/kk</em></div></div>' +
         '<div class="erittely"><div>Energia<b>' + e(paaHinta.energia) + ' €/v</b></div><div>Perusmaksut<b>' + e(paaHinta.maksut) + ' €/v</b></div><div>Keskihinta<b>' + d2(paaHinta.yht / kwh * 100) + ' snt/kWh</b></div></div>' +
         '<details><summary>Näin hinta laskettiin</summary><ul><li>' + tiedot.join("</li><li>") + '</li></ul></details>' +
         '<div class="tulos-ala"><span class="ero">' + eroTxt + '</span>' + cta + '</div></article>';

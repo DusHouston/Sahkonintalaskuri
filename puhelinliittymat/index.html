@@ -55,6 +55,13 @@
 <button type="button" aria-pressed="false" data-tarve="paljon"><strong>Paljon videota ja jakamista</strong><span>50–300 Mbit/s</span></button>
 <button type="button" aria-pressed="false" data-tarve="nopein"><strong>Nopein 5G / kodin netti</strong><span>300 Mbit/s tai enemmän</span></button>
 </div>
+<div class="kaksoisliuku">
+<div class="liuku-otsake"><span class="k" style="margin:0">Nopeus</span><output id="nopeusArvo">Kaikki nopeudet</output></div>
+<div class="kl-rata"><div class="kl-tausta"></div><div class="kl-taytto" id="nopeusTaytto"></div>
+<input id="nopeusMin" type="range" min="0" max="500" step="50" value="0" aria-label="Nopeuden alaraja (Mbit/s)">
+<input id="nopeusMax" type="range" min="0" max="500" step="50" value="500" aria-label="Nopeuden yläraja (Mbit/s)"></div>
+<div class="kl-asteikko"><span>0</span><span>100</span><span>200</span><span>300</span><span>400</span><span>500+</span></div>
+</div>
 <p class="vaihe"><span>2</span>Rajaa</p>
 <div class="suodattimet kaareva" role="group" aria-label="Verkko">
 <button type="button" class="aktiivinen" aria-pressed="true" data-verkko="kaikki">4G ja 5G</button>

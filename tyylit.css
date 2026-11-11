@@ -341,3 +341,22 @@ footer .logo svg{box-shadow:0 0 0 1px rgba(255,255,255,.18);border-radius:10px}
 @media(max-width:680px){.navi .pitka{display:none}.navi .lyhyt{display:inline}}
 @media(max-width:420px){.navi a{padding:7px 7px;font-size:13.5px}.logo{font-size:16.5px;gap:7px}.logo svg{width:28px;height:28px}.yla .kaari{gap:6px}}
 @media(max-width:899px){.pieni-sankari .sankari-kuva{display:none}.pieni-sankari .sankari-sisus{padding-bottom:32px}}
+/* Kuukausihinnan korostus */
+.kk-hinta{display:inline-block;margin-top:6px;font-style:normal;font-weight:800;font-size:15px;color:var(--minttu-t);background:var(--minttu-v);padding:3px 9px;border-radius:8px}
+.kk-hinta.vuosi{color:var(--navy);background:var(--tausta)}
+.hinta span{display:block}
+.hinta small{font-size:15px;font-weight:700;margin-left:2px;color:var(--harmaa)}
+/* Kaksoisliukusäädin */
+.kaksoisliuku{background:var(--tausta);border-radius:12px;padding:12px 12px 8px;margin:14px 0 18px}
+.kaksoisliuku output{font-weight:800;font-size:15.5px;color:var(--navy)}
+.kl-rata{position:relative;height:36px}
+.kl-tausta,.kl-taytto{position:absolute;top:13px;height:10px;border-radius:99px}
+.kl-tausta{left:0;right:0;background:#e1e7ef}
+.kl-taytto{background:var(--minttu)}
+.kl-rata input[type=range]{position:absolute;left:0;top:2px;width:100%;margin:0;pointer-events:none;background:transparent}
+.kl-rata input[type=range]::-webkit-slider-runnable-track{background:transparent;height:10px}
+.kl-rata input[type=range]::-moz-range-track{background:transparent}
+.kl-rata input[type=range]::-moz-range-progress{background:transparent}
+.kl-rata input[type=range]::-webkit-slider-thumb{pointer-events:all}
+.kl-rata input[type=range]::-moz-range-thumb{pointer-events:all}
+.kl-asteikko{display:flex;justify-content:space-between;font-size:12px;color:var(--harmaa)}

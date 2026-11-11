@@ -2,13 +2,13 @@
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
   if (!$("liittymatulokset")) return;
-  var tila = { tarve: "kaikki", verkko: "kaikki", rajatonPuhe: false, eiMaaraaikaa: false, operaattorit: {}, jarjestys: "k12", kaikki: false };
+  var tila = { tarve: "kaikki", nMin: 0, nMax: 500, verkko: "kaikki", rajatonPuhe: false, eiMaaraaikaa: false, operaattorit: {}, jarjestys: "k12", kaikki: false };
   var NAYTA = 8;
   var TARPEET = {
-    kaikki: { min: 0, max: Infinity },
+    kaikki: { min: 0, max: 500 },
     perus: { min: 0, max: 50 },
     paljon: { min: 50, max: 300 },
-    nopein: { min: 300, max: Infinity }
+    nopein: { min: 300, max: 500 }
   };
   function e(n) { return Math.round(n).toLocaleString("fi-FI"); }
   function d2(n) { return n.toLocaleString("fi-FI", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -28,10 +28,9 @@
   operaattorit.forEach(function (o) { tila.operaattorit[o] = true; });
 
   function paivita() {
-    var t = TARPEET[tila.tarve];
     var rivit = window.LIITTYMAT.filter(function (l) {
       if (!tila.operaattorit[l.operaattori]) return false;
-      if (l.nopeus < t.min || l.nopeus >= t.max) return false;
+      if (l.nopeus < tila.nMin || (tila.nMax < 500 && l.nopeus > tila.nMax)) return false;
       if (tila.verkko !== "kaikki" && l.verkko !== tila.verkko) return false;
       if (tila.rajatonPuhe && !l.rajatonPuhe) return false;
       if (tila.eiMaaraaikaa && l.sopimus && l.sopimus !== "Toistaiseksi") return false;
@@ -64,14 +63,13 @@
         (l.eSIM ? '<span class="merkki">eSIM</span>' : "");
       return '<article class="tulos liittyma' + (i === 0 ? " paras" : "") + '">' + (i === 0 && (j === "k12" || j === "k24") ? '<span class="nauha">Edullisin valinnoillasi</span>' : "") +
         '<div class="liittyma-paa"><div><div class="tarjoaja">' + esc(l.operaattori) + '</div><div class="sopimus">' + esc(l.nimi) + '</div></div>' +
-        '<div class="hinta"><strong>' + e(r[avain]) + ' €</strong><span>yhteensä ' + (avain === "k24" ? "24" : "12") + ' kk</span></div></div>' +
+        '<div class="hinta"><strong>' + d2(l.kampanja ? l.kampanja.hinta : l.hinta) + ' €<small>/kk</small></strong>' + (l.kampanja ? '<span>' + l.kampanja.kk + ' kk, sen jälkeen ' + d2(l.hinta) + ' €/kk</span>' : '<span>sama hinta jatkossa</span>') + '<em class="kk-hinta vuosi">' + e(r[avain]) + ' € / ' + (avain === "k24" ? "24" : "12") + ' kk</em></div></div>' +
         '<div class="ominaisuudet">' +
           '<div><span>Nopeus</span><b>' + e(l.nopeus) + ' Mbit/s</b></div>' +
           '<div><span>Data</span><b>' + (l.data === "rajaton" ? "Rajaton" : l.data + " GB/kk") + '</b></div>' +
           '<div><span>Puhelut ja viestit</span><b>' + (l.rajatonPuhe ? "Rajaton" : esc(l.puhelut)) + '</b></div>' +
           '<div><span>EU-data</span><b>' + (l.euData ? l.euData + " GB/kk" : "–") + '</b></div>' +
         '</div>' +
-        '<div class="kuukausihinta">' + kuukausi + '</div>' +
         '<div class="merkit">' + merkit + '</div>' +
         '<details><summary>Lisätiedot</summary><ul>' +
           '<li>Avausmaksu: ' + (l.avaus ? d2(l.avaus) + " €" : (l.avaus === 0 ? "0 €" : "ei tiedossa")) + '</li>' +
@@ -80,13 +78,31 @@
           (!l.rajatonPuhe ? '<li>Puhelut ja viestit eivät sisälly hintaan: ' + esc(l.puhelut) + '</li>' : "") +
           (l.huom ? '<li>' + esc(l.huom) + '</li>' : "") +
         '</ul></details>' +
-        '<div class="tulos-ala"><span class="ero">' + d2(r[avain] / (avain === "k24" ? 24 : 12)) + ' €/kk keskimäärin</span>' + cta + '</div></article>';
+        '<div class="tulos-ala"><span class="ero">Keskimäärin ' + d2(r[avain] / (avain === "k24" ? 24 : 12)) + ' €/kk, sis. avausmaksun</span>' + cta + '</div></article>';
     }).join("") + (rivit.length > NAYTA ? '<button type="button" class="nayta-lisaa" id="naytaLisaaL">' + (tila.kaikki ? "Näytä vähemmän" : "Näytä kaikki " + rivit.length + " liittymää") + '</button>' : "");
   }
 
+  var nMin = $("nopeusMin"), nMax = $("nopeusMax");
+  function nopeusTeksti(v) { return v >= 500 ? "500+" : String(v); }
+  function asetaNopeus(min, max, lahde) {
+    if (min > max) { if (lahde === "min") max = min; else min = max; }
+    tila.nMin = min; tila.nMax = max;
+    nMin.style.zIndex = min >= 450 ? 3 : 1; nMax.style.zIndex = 2;
+    nMin.value = min; nMax.value = max;
+    $("nopeusArvo").textContent = (min === 0 && max >= 500) ? "Kaikki nopeudet" : nopeusTeksti(min) + "–" + nopeusTeksti(max) + " Mbit/s";
+    $("nopeusTaytto").style.left = (min / 5) + "%";
+    $("nopeusTaytto").style.right = (100 - max / 5) + "%";
+    document.querySelectorAll("[data-tarve]").forEach(function (x) {
+      var t = TARPEET[x.dataset.tarve], on = t.min === min && t.max === max;
+      x.classList.toggle("valittu", on); x.setAttribute("aria-pressed", on);
+    });
+  }
+  nMin.addEventListener("input", function () { asetaNopeus(+nMin.value, +nMax.value, "min"); paivita(); });
+  nMax.addEventListener("input", function () { asetaNopeus(+nMin.value, +nMax.value, "max"); paivita(); });
   document.querySelectorAll("[data-tarve]").forEach(function (b) {
     b.addEventListener("click", function () {
       tila.tarve = b.dataset.tarve;
+      asetaNopeus(TARPEET[tila.tarve].min, TARPEET[tila.tarve].max);
       document.querySelectorAll("[data-tarve]").forEach(function (x) { x.classList.toggle("valittu", x === b); x.setAttribute("aria-pressed", x === b); });
       paivita();
     });
@@ -108,5 +124,6 @@
   });
   var pv = new Date(window.LIITTYMAT_PAIVITETTY).toLocaleDateString("fi-FI");
   document.querySelectorAll("[data-lpaivitetty]").forEach(function (x) { x.textContent = pv; });
+  asetaNopeus(0, 500);
   paivita();
 })();
