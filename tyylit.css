@@ -360,3 +360,12 @@ footer .logo svg{box-shadow:0 0 0 1px rgba(255,255,255,.18);border-radius:10px}
 .kl-rata input[type=range]::-webkit-slider-thumb{pointer-events:all}
 .kl-rata input[type=range]::-moz-range-thumb{pointer-events:all}
 .kl-asteikko{display:flex;justify-content:space-between;font-size:12px;color:var(--harmaa)}
+.cta-ryhma{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 12px;justify-content:flex-end}
+.mainos-merkki{flex-basis:100%;text-align:right;font-size:11.5px;color:var(--harmaa)}
+.lisaa-linkki{font-size:14px;font-weight:600}
+.yritys-kortti{display:grid;gap:20px;align-items:center;background:#fff;border:1px solid var(--raja);border-radius:20px;padding:22px;box-shadow:var(--varjo);margin:20px 0}
+@media(min-width:760px){.yritys-kortti{grid-template-columns:1fr auto}}
+.yritys-kortti .cta{font-size:16px;min-height:50px}
+.banneri{display:block;margin:20px 0;text-align:center}
+.banneri img{display:inline-block;max-width:100%;height:auto;border-radius:12px}
+.mainosilmoitus{display:inline-block;font-size:12.5px;font-weight:700;color:#94590a;background:var(--aurinko-v);padding:4px 10px;border-radius:7px;margin:0 0 10px}

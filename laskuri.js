@@ -3,7 +3,7 @@
   var $ = function (id) { return document.getElementById(id); };
   if (!$("tulokset")) return;
 
-  var TYYPIT = { kiintea12: "Kiinteä 12 kk", kiintea24: "Kiinteä 24 kk", toistaiseksi: "Kiinteä, toistaiseksi", porssi: "Pörssisähkö", hybridi: "Hybridi" };
+  var TYYPIT = { kiintea12: "Kiinteä 12 kk", kiintea24: "Kiinteä 24 kk", kulutusvaikutteinen: "Hybridi (kulutusvaikutteinen)", toistaiseksi: "Kiinteä, toistaiseksi", porssi: "Pörssisähkö", hybridi: "Hybridi" };
   var MIN = 500, MAX = 30000;
   var tila = { kwh: 2000, suodatin: "kaikki", jarjestys: "eka", kaikki: false };
   var NAYTA = 6;
@@ -80,7 +80,7 @@
     if (isNaN(spot)) spot = window.OLETUS_POSSI_KESKIHINTA;
     var piilotetut = 0, rivit = [];
     window.SOPIMUKSET.forEach(function (c) {
-      if (tila.suodatin !== "kaikki" && c.tyyppi !== tila.suodatin) return;
+      if (tila.suodatin !== "kaikki" && c.tyyppi !== tila.suodatin && !(tila.suodatin === "hybridi" && c.tyyppi === "kulutusvaikutteinen")) return;
       if (c.maxKwh && kwh > c.maxKwh) { piilotetut++; return; }
       rivit.push({ c: c, eka: laskeVuosi(c, kwh, spot, true), jatko: laskeVuosi(c, kwh, spot, false) });
     });
@@ -108,7 +108,7 @@
         ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(alkuMarg ? c.alku.marginaali : c.marginaali) + ' snt/kWh</b>' + (alkuMarg ? '<span class="hr-lisa">ensimmäiset ' + c.alku.ekaKk + ' kk, sen jälkeen ' + d2(c.marginaali) + ' snt</span>' : '<span class="hr-lisa">+ pörssihinta</span>') + '</div>'
         : c.tyyppi === "hybridi"
         ? '<div class="hintarivi"><span class="hr-otsake">Marginaali</span><b>' + d2(c.marginaali) + ' snt/kWh</b><span class="hr-lisa">kesällä + pörssihinta, talvella kiinteä ' + d2(c.talviHinta) + ' snt</span></div>'
-        : '<div class="hintarivi"><span class="hr-otsake">Energian hinta</span><b>' + d2(c.hinta) + ' snt/kWh</b><span class="hr-lisa">kiinteä</span></div>';
+        : '<div class="hintarivi"><span class="hr-otsake">Energian hinta</span><b>' + d2(c.hinta) + ' snt/kWh</b><span class="hr-lisa">' + (c.tyyppi === "kulutusvaikutteinen" ? "+/- kulutusvaikutus" : "kiinteä") + '</span></div>';
       var merkit = '<span class="merkki ' + tyyppiLuokka + '">' + TYYPIT[c.tyyppi] + '</span>' +
         '<span class="merkki">Kesto: ' + esc(c.kesto) + '</span>' +
         (c.alku ? '<span class="merkki">Tarjousjakso ' + c.alku.kk + ' kk</span>' : "") +
@@ -118,7 +118,7 @@
       var eroTxt = i === 0 || ero < 1 ? "Edullisin valinnoillasi" : "+" + e(ero) + " €/v edullisimpaan verrattuna";
       var jatkoEro = Math.abs(r.jatko.yht - r.eka.yht) >= 1;
       var cta = c.linkki
-        ? '<a class="cta" href="' + esc(c.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a>'
+        ? '<span class="cta-ryhma">' + (c.sivu ? '<a class="lisaa-linkki" href="' + esc(c.sivu) + '">Lue lisää</a>' : '') + '<a class="cta" href="' + esc(c.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a><span class="mainos-merkki">Mainoslinkki</span></span>'
         : (c.url ? '<a class="cta toissij" href="' + esc(c.url) + '" target="_blank" rel="nofollow noopener">Tarjoajan sivuille <span aria-hidden="true">↗</span></a>' : '<span class="ei-linkkia">Tilaus tarjoajan omilta sivuilta</span>');
       var tiedot = [];
       tiedot.push("Energian hinta: " + hintaTxt);
