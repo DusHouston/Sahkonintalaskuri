@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://laskuremppa.fi/sitemap.xml
+Sitemap: https://vertaasopimukset.fi/sitemap.xml
