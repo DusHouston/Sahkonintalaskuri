@@ -57,7 +57,7 @@
         ? '<span class="kampanjahinta">' + d2(l.kampanja.hinta) + ' €/kk</span><span class="jatkohinta">' + l.kampanja.kk + ' kk, sen jälkeen ' + d2(l.hinta) + ' €/kk</span>'
         : '<span class="kampanjahinta">' + d2(l.hinta) + ' €/kk</span><span class="jatkohinta">Sama hinta myös jatkossa</span>';
       var cta = l.linkki
-        ? '<span class="cta-ryhma"><a class="cta" href="' + esc(l.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a><span class="mainos-merkki">Mainoslinkki</span></span>'
+        ? '<span class="cta-ryhma"><a class="cta" href="' + esc(l.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a></span>'
         : '<a class="cta toissij" href="' + esc(l.url) + '" target="_blank" rel="nofollow noopener">Operaattorin sivuille <span aria-hidden="true">↗</span></a>';
       var merkit = '<span class="merkki ' + (l.verkko === "5G" ? "porssi" : "kiintea") + '">' + l.verkko + '</span>' +
         (l.sopimus && l.sopimus !== "Toistaiseksi" ? '<span class="merkki varoitus">Määräaikainen ' + esc(l.sopimus) + '</span>' : '<span class="merkki">Ei määräaikaa</span>') +

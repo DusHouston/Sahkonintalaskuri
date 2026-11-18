@@ -120,7 +120,12 @@
     var halvin = Math.min.apply(null, rivit.map(function (r) { return avain === "jatko" ? r.jatko.yht : r.eka.yht; }));
 
     var naytettavat = tila.kaikki ? rivit : rivit.slice(0, NAYTA);
-    el.innerHTML = naytettavat.map(function (r, i) {
+    var hinnat = rivit.map(function (r) { return avain === "jatko" ? r.jatko.yht : r.eka.yht; }).sort(function (a, b) { return a - b; });
+    var kallein = hinnat[hinnat.length - 1], mediaani = hinnat[Math.floor(hinnat.length / 2)];
+    var eka = rivit[0], ekaH = avain === "jatko" ? eka.jatko : eka.eka;
+    var yhteenveto = '<div class="yhteenveto"><div><span class="yv-otsake">Halvin sinulle</span><strong>' + esc(eka.c.tarjoaja) + ' ' + esc(eka.c.nimi) + '</strong><span>≈ ' + e(ekaH.yht / 12) + ' €/kk · ' + e(ekaH.yht) + ' €/v</span></div>' +
+      (kallein - halvin >= 10 ? '<div class="yv-saasto"><span class="yv-otsake">Ero kalleimpaan</span><strong>' + e(kallein - halvin) + ' €</strong><span>vuodessa</span></div>' : '') + '</div>';
+    el.innerHTML = yhteenveto + naytettavat.map(function (r, i) {
       var c = r.c, paaHinta = avain === "jatko" ? r.jatko : r.eka;
       var tyyppiLuokka = c.tyyppi === "porssi" || c.tyyppi === "hybridi" ? "porssi" : "kiintea";
       var hintaTxt = c.tyyppi === "porssi" ? "Pörssihinta + " + d2(c.marginaali) + " snt/kWh"
@@ -138,10 +143,11 @@
         (c.tyyppi === "toistaiseksi" ? '<span class="merkki varoitus">Hinta voi muuttua</span>' : "") +
         (c.maxKwh ? '<span class="merkki">Max ' + e(c.maxKwh) + ' kWh/v</span>' : "");
       var ero = paaHinta.yht - halvin;
-      var eroTxt = i === 0 || ero < 1 ? "Edullisin valinnoillasi" : "+" + e(ero) + " €/v edullisimpaan verrattuna";
+      var saasto = mediaani - paaHinta.yht;
+      var eroTxt = i === 0 || ero < 1 ? "Edullisin valinnoillasi" + (saasto >= 10 ? " · " + e(saasto) + " €/v halvempi kuin vertailun keskitaso" : "") : (saasto >= 10 ? e(saasto) + " €/v halvempi kuin keskitaso" : "+" + e(ero) + " €/v edullisimpaan verrattuna");
       var jatkoEro = Math.abs(r.jatko.yht - r.eka.yht) >= 1;
       var cta = c.linkki
-        ? '<span class="cta-ryhma">' + (c.sivu ? '<a class="lisaa-linkki" href="' + esc(c.sivu) + '">Lue lisää</a>' : '') + '<a class="cta" href="' + esc(c.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a><span class="mainos-merkki">Mainoslinkki</span></span>'
+        ? '<span class="cta-ryhma">' + (c.sivu ? '<a class="lisaa-linkki" href="' + esc(c.sivu) + '">Lue lisää</a>' : '') + '<a class="cta" href="' + esc(c.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a></span>'
         : (c.url ? '<a class="cta toissij" href="' + esc(c.url) + '" target="_blank" rel="nofollow noopener">Tarjoajan sivuille <span aria-hidden="true">↗</span></a>' : '<span class="ei-linkkia">Tilaus tarjoajan omilta sivuilta</span>');
       var tiedot = [];
       tiedot.push("Energian hinta: " + hintaTxt);
