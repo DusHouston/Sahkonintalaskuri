@@ -50,6 +50,13 @@
 </div>
 </section>
 
+<section class="logonauha" aria-label="Vertailussa mukana">
+<div class="kaari">
+<p>Vertailussa mukana</p>
+<ul><li><img src="/kuvat/logot/fortum.png" alt="Fortum" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/vattenfall.png" alt="Vattenfall" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/oomi.png" alt="Oomi" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/nordic-green-energy.png" alt="Nordic Green Energy" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/vihrea-alyenergia.png" alt="Vihreä Älyenergia" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/hehku.png" alt="Hehku" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/cheap-energy.png" alt="Cheap Energy" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/aalto-energia.png" alt="Aalto Energia" width="150" height="50" loading="lazy"></li></ul>
+</div>
+</section>
+
 <section class="tiesitko" aria-labelledby="tiesitko-otsikko">
 <div class="kaari">
 <h2 id="tiesitko-otsikko">Kiinteät kulut kannattaa kilpailuttaa</h2>
@@ -81,6 +88,20 @@
 <div class="asteikko"><span>500</span><span>5 000</span><span>15 000</span><span>30 000</span></div>
 <p class="kuukausittain" id="kuukausittain"></p>
 
+<p class="vaihe"><span>2</span>Milloin käytät sähköä?</p>
+<div class="profiilit" role="group" aria-label="Kulutuksen ajoittuminen">
+<button type="button" class="valittu" aria-pressed="true" data-profiili="tasainen"><strong>Tavallinen arki</strong><span>Eniten iltaisin</span></button>
+<button type="button" aria-pressed="false" data-profiili="lammitys"><strong>Sähkölämmitys</strong><span>Painottuu talveen</span></button>
+<button type="button" aria-pressed="false" data-profiili="ajoitettu"><strong>Ajoitan yöhön</strong><span>Lataus, lämminvesi</span></button>
+</div>
+<p class="profiili-tulos" id="profiiliTulos"></p>
+<details class="arvio datahub">
+<summary>Laske toteutuneella kulutuksellasi (Datahub)</summary>
+<p class="pieni">Tarkin vertailu syntyy omilla tuntikulutuksillasi. Lataa ne Fingridin Datahubista: kirjaudu osoitteessa <a href="https://oma.datahub.fi" target="_blank" rel="noopener">oma.datahub.fi</a> → valitse käyttöpaikka → <em>Kulutustiedot</em> → valitse viimeiset 12 kuukautta → <em>Lataa CSV</em>.</p>
+<label class="tiedostonappi"><input id="datahubTiedosto" type="file" accept=".csv,text/csv,text/plain">Valitse CSV-tiedosto</label>
+<p class="pieni" id="datahubTulos">Tiedosto luetaan vain selaimessasi. Mitään ei tallenneta eikä lähetetä.</p>
+</details>
+
 <details class="arvio">
 <summary>En tiedä kulutustani – arvioi se</summary>
 <label class="k" for="asunto">Asunto ja lämmitys</label>
@@ -105,14 +126,14 @@
 
 <details class="arvio">
 <summary>Lisäasetukset</summary>
-<label class="k" for="spot">Pörssisähkön keskihinta-arvio (snt/kWh, sis. alv)</label>
+<label class="k" for="spot">Pörssisähkön hinta kulutuksellasi (snt/kWh, sis. alv)</label>
 <input id="spot" type="text" inputmode="decimal">
-<p class="pieni">Oletuksena viimeisen 12 kuukauden keskihinta. Sähkölämmitteisessä talossa kulutus painottuu talveen, jolloin hinta on usein korkeampi: nosta arviota tarvittaessa.</p>
+<p class="pieni">Täyttyy automaattisesti kulutusprofiilisi mukaan toteutuneista tuntihinnoista (11/2025–10/2026). Voit muuttaa arviota itse.</p>
 </details>
 </form>
 
 <section id="tulosalue" aria-live="polite">
-<div class="tulosotsake"><div><p class="vaihe"><span>2</span>Vertaa ja valitse</p><p class="pieni" id="tulosmaara"></p></div>
+<div class="tulosotsake"><div><p class="vaihe"><span>3</span>Vertaa ja valitse</p><p class="pieni" id="tulosmaara"></p></div>
 <label><span class="ohita">Järjestys</span><select id="jarjestys"><option value="eka">Halvin ensimmäinen vuosi</option><option value="jatko">Halvin tarjousjakson jälkeen</option><option value="maksu">Pienin perusmaksu</option></select></label></div>
 <div class="suodattimet" role="group" aria-label="Sopimustyyppi">
 <button class="aktiivinen" aria-pressed="true" data-suodatin="kaikki">Kaikki</button>
@@ -199,6 +220,7 @@
 <div><h2>Sivusto</h2><a href="/sahkoyhtiot/">Sähköyhtiöt</a><a href="/tietoa/">Tietoa sivustosta</a><a href="/menetelma/">Näin vertailemme</a><a href="/kumppanuuslinkit/">Kumppanuuslinkit</a><a href="/tietosuoja/">Tietosuoja</a></div>
 <p class="copy">© 2026 VertaaSopimukset. Sivusto sisältää kumppanuuslinkkejä. Laskelmat ovat arvioita, eivät sitovia tarjouksia. Tarkista lopulliset hinnat ja ehdot aina palveluntarjoajalta.</p>
 </div></footer>
+<script src="/spot.js"></script>
 <script src="/sopimukset.js"></script>
 <script src="/laskuri.js"></script>
 </body>

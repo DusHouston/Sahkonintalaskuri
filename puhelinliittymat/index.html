@@ -33,7 +33,7 @@
 <div class="sankari-teksti">
 <p class="ylarivi"><span class="piste"></span>Hinnat tarkistettu <span data-lpaivitetty>11.11.2026</span></p>
 <h1>Puhelinliittymät <span class="korostus">vertailussa</span></h1>
-<p class="ingressi">Vertaa liittymien todellista hintaa: kampanjahinta, jatkohinta ja avausmaksu laskettuna yhteen. Elisa, DNA, Telia, Moi ja Oomi samassa näkymässä.</p>
+<p class="ingressi">Vertaa liittymien todellista hintaa: kampanjahinta, jatkohinta ja avausmaksu laskettuna yhteen. Telia, Moi, Oomi Mobiili, DNA ja Elisa samassa näkymässä – myös mobiilinetit.</p>
 <ul class="luottamus">
 <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10.5 8.5 14 15 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Kokonaishinta 12 tai 24 kk</li>
 <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10.5 8.5 14 15 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Kampanja- ja jatkohinta erikseen</li>
@@ -44,11 +44,19 @@
 </div>
 </section>
 
+<section class="logonauha" aria-label="Operaattorit vertailussa">
+<div class="kaari">
+<p>Operaattorit vertailussa</p>
+<ul><li><img src="/kuvat/logot/telia.png" alt="Telia" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/moi.png" alt="Moi" width="150" height="50" loading="lazy"></li><li><img src="/kuvat/logot/oomi.png" alt="Oomi Mobiili" width="150" height="50" loading="lazy"></li><li class="teksti-logo">DNA</li><li class="teksti-logo">Elisa</li></ul>
+</div>
+</section>
+
 <section class="laskuriosio" id="vertailu">
 <div class="kaari">
 <div class="laskuri">
 <form class="paneeli" onsubmit="return false" aria-label="Liittymän valinnat">
-<p class="vaihe"><span>1</span>Mihin käytät puhelinta?</p>
+<div class="lajivalinta" role="group" aria-label="Liittymätyyppi"><button type="button" class="aktiivinen" aria-pressed="true" data-laji="puhe"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5" stroke="currentColor" stroke-width="1.9"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Puhelinliittymät</button><button type="button" aria-pressed="false" data-laji="netti"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.8 16a5 5 0 0 1 6.4 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="19.2" r="1.3" fill="currentColor"/></svg>Nettiliittymät</button></div>
+<p class="vaihe"><span>1</span>Mihin käytät liittymää?</p>
 <div class="esivalinnat yksi" role="group" aria-label="Käyttötarve">
 <button type="button" class="valittu" aria-pressed="true" data-tarve="kaikki"><strong>Näytä kaikki</strong><span>Kaikki nopeudet</span></button>
 <button type="button" aria-pressed="false" data-tarve="perus"><strong>Peruskäyttö</strong><span>Some, viestit, video · alle 50 Mbit/s</span></button>

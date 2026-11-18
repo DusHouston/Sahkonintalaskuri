@@ -1,8 +1,10 @@
 (function () {
+  var LOGOT = { "Telia": "telia", "Moi": "moi", "Oomi": "oomi" };
+  function logo(o) { return LOGOT[o] ? '<img class="tulos-logo" src="/kuvat/logot/' + LOGOT[o] + '.png" alt="' + o + '" width="150" height="50" loading="lazy">' : '<span class="tulos-logo teksti">' + o + '</span>'; }
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
   if (!$("liittymatulokset")) return;
-  var tila = { tarve: "kaikki", nMin: 0, nMax: 500, verkko: "kaikki", rajatonPuhe: false, eiMaaraaikaa: false, operaattorit: {}, jarjestys: "k12", kaikki: false };
+  var tila = { laji: "puhe", tarve: "kaikki", nMin: 0, nMax: 500, verkko: "kaikki", rajatonPuhe: false, eiMaaraaikaa: false, operaattorit: {}, jarjestys: "k12", kaikki: false };
   var NAYTA = 8;
   var TARPEET = {
     kaikki: { min: 0, max: 500 },
@@ -29,6 +31,7 @@
 
   function paivita() {
     var rivit = window.LIITTYMAT.filter(function (l) {
+      if ((l.laji || "puhe") !== tila.laji) return false;
       if (!tila.operaattorit[l.operaattori]) return false;
       if (l.nopeus < tila.nMin || (tila.nMax < 500 && l.nopeus > tila.nMax)) return false;
       if (tila.verkko !== "kaikki" && l.verkko !== tila.verkko) return false;
@@ -54,7 +57,7 @@
         ? '<span class="kampanjahinta">' + d2(l.kampanja.hinta) + ' €/kk</span><span class="jatkohinta">' + l.kampanja.kk + ' kk, sen jälkeen ' + d2(l.hinta) + ' €/kk</span>'
         : '<span class="kampanjahinta">' + d2(l.hinta) + ' €/kk</span><span class="jatkohinta">Sama hinta myös jatkossa</span>';
       var cta = l.linkki
-        ? '<a class="cta" href="' + esc(l.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a>'
+        ? '<span class="cta-ryhma"><a class="cta" href="' + esc(l.linkki) + '" target="_blank" rel="sponsored nofollow noopener">Katso tarjous <span aria-hidden="true">→</span></a><span class="mainos-merkki">Mainoslinkki</span></span>'
         : '<a class="cta toissij" href="' + esc(l.url) + '" target="_blank" rel="nofollow noopener">Operaattorin sivuille <span aria-hidden="true">↗</span></a>';
       var merkit = '<span class="merkki ' + (l.verkko === "5G" ? "porssi" : "kiintea") + '">' + l.verkko + '</span>' +
         (l.sopimus && l.sopimus !== "Toistaiseksi" ? '<span class="merkki varoitus">Määräaikainen ' + esc(l.sopimus) + '</span>' : '<span class="merkki">Ei määräaikaa</span>') +
@@ -62,12 +65,12 @@
         (l.avaus === 0 ? '<span class="merkki kiintea">Ei avausmaksua</span>' : "") +
         (l.eSIM ? '<span class="merkki">eSIM</span>' : "");
       return '<article class="tulos liittyma' + (i === 0 ? " paras" : "") + '">' + (i === 0 && (j === "k12" || j === "k24") ? '<span class="nauha">Edullisin valinnoillasi</span>' : "") +
-        '<div class="liittyma-paa"><div><div class="tarjoaja">' + esc(l.operaattori) + '</div><div class="sopimus">' + esc(l.nimi) + '</div></div>' +
+        '<div class="liittyma-paa"><div>' + logo(l.operaattori) + '<div class="tarjoaja">' + esc(l.operaattori === "Oomi" ? "Oomi Mobiili" : l.operaattori) + '</div><div class="sopimus">' + esc(l.nimi) + '</div></div>' +
         '<div class="hinta"><strong>' + d2(l.kampanja ? l.kampanja.hinta : l.hinta) + ' €<small>/kk</small></strong>' + (l.kampanja ? '<span>' + l.kampanja.kk + ' kk, sen jälkeen ' + d2(l.hinta) + ' €/kk</span>' : '<span>sama hinta jatkossa</span>') + '<em class="kk-hinta vuosi">' + e(r[avain]) + ' € / ' + (avain === "k24" ? "24" : "12") + ' kk</em></div></div>' +
         '<div class="ominaisuudet">' +
-          '<div><span>Nopeus</span><b>' + e(l.nopeus) + ' Mbit/s</b></div>' +
+          '<div><span>Nopeus</span><b>' + (l.nopeus < 1 ? String(l.nopeus).replace(".", ",") : e(l.nopeus)) + ' Mbit/s</b></div>' +
           '<div><span>Data</span><b>' + (l.data === "rajaton" ? "Rajaton" : l.data + " GB/kk") + '</b></div>' +
-          '<div><span>Puhelut ja viestit</span><b>' + (l.rajatonPuhe ? "Rajaton" : esc(l.puhelut)) + '</b></div>' +
+          (l.laji === "netti" ? '<div><span>Käyttö</span><b>Vain data</b></div>' : '<div><span>Puhelut ja viestit</span><b>' + (l.rajatonPuhe ? "Rajaton" : esc(l.puhelut)) + '</b></div>') +
           '<div><span>EU-data</span><b>' + (l.euData ? l.euData + " GB/kk" : "–") + '</b></div>' +
         '</div>' +
         '<div class="merkit">' + merkit + '</div>' +
@@ -111,6 +114,14 @@
     b.addEventListener("click", function () {
       tila.verkko = b.dataset.verkko;
       document.querySelectorAll("[data-verkko]").forEach(function (x) { x.classList.toggle("aktiivinen", x === b); x.setAttribute("aria-pressed", x === b); });
+      paivita();
+    });
+  });
+  document.querySelectorAll("[data-laji]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      tila.laji = b.dataset.laji; tila.kaikki = false;
+      document.querySelectorAll("[data-laji]").forEach(function (x) { x.classList.toggle("aktiivinen", x === b); x.setAttribute("aria-pressed", x === b); });
+      var rp = $("rajatonPuhe"); rp.closest("label").hidden = tila.laji === "netti";
       paivita();
     });
   });

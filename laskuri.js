@@ -8,6 +8,7 @@
   var tila = { kwh: 2000, suodatin: "kaikki", jarjestys: "eka", kaikki: false };
   var NAYTA = 6;
 
+  function logo(t) { var f = window.LOGOT && window.LOGOT[t]; return f ? '<img class="tulos-logo" src="/kuvat/logot/' + f + '.png" alt="' + t + '" width="150" height="50" loading="lazy">' : ""; }
   function e(n) { return Math.round(n).toLocaleString("fi-FI"); }
   function d2(n) { return n.toLocaleString("fi-FI", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -23,13 +24,35 @@
       c.alku = { kk: c.vaiheet[c.vaiheet.length - 1].asti, maksu: v.maksu, marginaali: v.marginaali, ekaKk: v.asti };
     }
   });
+
+  /* Kulutusprofiili: pörssihinta painotettuna sen mukaan, milloin sähköä käytetään */
+  var T = window.SPOT_TAULU || [];
+  var PROFIILIT = {
+    tasainen: { h: [0.6,0.5,0.5,0.5,0.5,0.6,0.8,1,1,0.9,0.9,0.9,0.9,0.9,0.9,1,1.2,1.5,1.6,1.5,1.4,1.2,1,0.8], m: [1.15,1.05,1,0.95,0.9,0.85,0.85,0.9,0.95,1.05,1.15,1.2] },
+    lammitys: { h: [0.9,0.85,0.85,0.85,0.85,0.9,1,1.1,1.1,1,1,1,1,1,1,1,1.1,1.2,1.25,1.2,1.15,1.1,1,0.95], m: [1.75,1.6,1.35,0.95,0.6,0.35,0.3,0.35,0.6,0.95,1.35,1.7] },
+    ajoitettu: { h: [2,2,2,2,2,1.6,0.7,0.5,0.5,0.5,0.6,0.6,0.6,0.6,0.6,0.6,0.5,0.5,0.5,0.5,0.6,0.9,1.5,2], m: [1.15,1.05,1,0.95,0.9,0.85,0.85,0.9,0.95,1.05,1.15,1.2] }
+  };
+  function painotettu(f) { // f(kk, vkl, tunti) -> paino
+    var sw = 0, sp = 0;
+    for (var m = 0; m < 12; m++) for (var w = 0; w < 2; w++) for (var h = 0; h < 24; h++) {
+      var p = f(m, w, h) * (w ? 2 : 5); var i = m * 48 + w * 24 + h;
+      if (T[i] === undefined) continue; sw += p; sp += p * T[i];
+    }
+    return sw ? sp / sw : window.OLETUS_POSSI_KESKIHINTA;
+  }
+  function profiiliSpot(nimi) { var P = PROFIILIT[nimi]; return painotettu(function (m, w, h) { return P.m[m] * P.h[h]; }); }
+  var PERUS_SPOT = T.length ? profiiliSpot("tasainen") : window.OLETUS_POSSI_KESKIHINTA;
   function kuukausihinta(c, kk, spot, alkuKaytossa) {
     var a = null;
     if (alkuKaytossa && c.vaiheet) for (var i = 0; i < c.vaiheet.length; i++) { if (kk <= c.vaiheet[i].asti) { a = c.vaiheet[i]; break; } }
     var maksu = a && a.maksu !== undefined ? a.maksu : c.maksu;
     var marg = a && a.marginaali !== undefined ? a.marginaali : c.marginaali;
     var snt;
-    if (c.tyyppi === "porssi") snt = spot + marg;
+    if (c.tyyppi === "porssi") {
+      if (c.ilmainenKk) { var kkKwh = Math.max(1, tila.kwh / 12); marg = marg * Math.max(0, kkKwh - c.ilmainenKk) / kkKwh; }
+      snt = spot + marg;
+    }
+    else if (c.tyyppi === "kulutusvaikutteinen") snt = (a && a.hinta !== undefined ? a.hinta : c.hinta) + (spot - PERUS_SPOT);
     else if (c.tyyppi === "hybridi") snt = c.talviOsuus * c.talviHinta + (1 - c.talviOsuus) * (spot + marg);
     else snt = a && a.hinta !== undefined ? a.hinta : c.hinta;
     return { snt: snt, maksu: maksu };
@@ -124,12 +147,13 @@
       tiedot.push("Energian hinta: " + hintaTxt);
       tiedot.push("Perusmaksu: " + d2(c.maksu) + " €/kk" + (c.alku && c.alku.maksu !== undefined ? " (tarjousjaksolla " + d2(c.alku.maksu) + " €/kk)" : ""));
       if (c.alku && c.alku.marginaali !== undefined) tiedot.push("Marginaali tarjousjaksolla " + d2(c.alku.marginaali) + " snt/kWh");
-      if (c.tyyppi === "porssi" || c.tyyppi === "hybridi") tiedot.push("Laskelmassa pörssihinnan keskiarvo " + d2(spot) + " snt/kWh");
+      if (c.tyyppi === "kulutusvaikutteinen") tiedot.push("Arvioitu kulutusvaikutus kulutusprofiilillasi " + (spot - PERUS_SPOT >= 0 ? "+" : "") + d2(spot - PERUS_SPOT) + " snt/kWh");
+      if (c.tyyppi === "porssi" || c.tyyppi === "hybridi") tiedot.push("Laskelmassa pörssihinta kulutusprofiilillasi " + d2(spot) + " snt/kWh");
       if (jatkoEro) tiedot.push("Tarjousjakson jälkeen arviolta " + e(r.jatko.yht) + " €/v");
       if (c.huom) tiedot.push(esc(c.huom));
       return '<article class="tulos' + (i === 0 ? " paras" : "") + '">' +
         (i === 0 ? '<span class="nauha">Edullisin</span>' : "") +
-        '<div class="tulos-paa"><div><div class="tarjoaja">' + esc(c.tarjoaja) + '</div><div class="sopimus">' + esc(c.nimi) + '</div>' + hintarivi + '<div class="merkit">' + merkit + '</div></div>' +
+        '<div class="tulos-paa"><div>' + logo(c.tarjoaja) + '<div class="tarjoaja">' + esc(c.tarjoaja) + '</div><div class="sopimus">' + esc(c.nimi) + '</div>' + hintarivi + '<div class="merkit">' + merkit + '</div></div>' +
         '<div class="hinta"><strong>' + e(paaHinta.yht) + ' €</strong><span>' + (avain === "jatko" ? "vuodessa jatkossa" : "ensimmäinen vuosi") + '</span><em class="kk-hinta">≈ ' + e(paaHinta.yht / 12) + ' €/kk</em></div></div>' +
         '<div class="erittely"><div>Energia<b>' + e(paaHinta.energia) + ' €/v</b></div><div>Perusmaksut<b>' + e(paaHinta.maksut) + ' €/v</b></div><div>Keskihinta<b>' + d2(paaHinta.yht / kwh * 100) + ' snt/kWh</b></div></div>' +
         '<details><summary>Näin hinta laskettiin</summary><ul><li>' + tiedot.join("</li><li>") + '</li></ul></details>' +
@@ -159,6 +183,70 @@
   });
   $("jarjestys").addEventListener("change", function () { tila.jarjestys = this.value; paivita(); });
   $("spot").addEventListener("input", paivita);
+  /* Kulutusprofiili ja Datahub-tiedosto */
+  function asetaSpot(v, teksti) {
+    $("spot").value = d2(v).replace(/\s/g, "");
+    var t = $("profiiliTulos"); if (t) t.innerHTML = teksti;
+    paivita();
+  }
+  function profiiliTeksti(v) {
+    var ero = v - window.OLETUS_POSSI_KESKIHINTA;
+    return 'Pörssisähkön hinta kulutuksellasi: <b>' + d2(v) + ' snt/kWh</b> (12 kk keskiarvo ' + d2(window.OLETUS_POSSI_KESKIHINTA) + ' snt, ' + (ero >= 0 ? "+" : "") + d2(ero) + ' snt).';
+  }
+  document.querySelectorAll("[data-profiili]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("[data-profiili]").forEach(function (x) { x.classList.toggle("valittu", x === b); x.setAttribute("aria-pressed", x === b); });
+      var v = profiiliSpot(b.dataset.profiili); asetaSpot(v, profiiliTeksti(v));
+    });
+  });
+  function lueAika(t) {
+    t = t.replace(/^"|"$/g, "").trim();
+    var m = t.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})/);
+    if (m) {
+      if (/Z$|[+-]\d{2}:?\d{2}$/.test(t)) { var d = new Date(t); if (isNaN(d)) return null; var l = new Date(d.toLocaleString("en-US", { timeZone: "Europe/Helsinki" })); return { m: l.getMonth(), d: l.getDay(), h: l.getHours(), t: d.getTime() }; }
+      var d2_ = new Date(+m[1], +m[2] - 1, +m[3], +m[4]); return { m: d2_.getMonth(), d: d2_.getDay(), h: d2_.getHours(), t: d2_.getTime() };
+    }
+    m = t.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})\s+(\d{1,2})[:.](\d{2})/);
+    if (m) { var d3 = new Date(+m[3], +m[2] - 1, +m[1], +m[4]); return { m: d3.getMonth(), d: d3.getDay(), h: d3.getHours(), t: d3.getTime() }; }
+    return null;
+  }
+  function lueCsv(teksti) {
+    var rivit = teksti.split(/\r?\n/), erotin = (rivit[0] || "").indexOf(";") >= 0 ? ";" : ",";
+    var kerta = [], min = Infinity, max = -Infinity, yht = 0;
+    var kwh = new Array(576).fill(0);
+    rivit.forEach(function (r) {
+      var osat = r.split(erotin); if (osat.length < 2) return;
+      var aika = null, ai = -1;
+      for (var i = 0; i < osat.length; i++) { aika = lueAika(osat[i]); if (aika) { ai = i; break; } }
+      if (!aika) return;
+      var arvo = NaN;
+      for (var j = osat.length - 1; j > ai; j--) { var v = parseFloat(osat[j].replace(/"/g, "").replace(",", ".")); if (!isNaN(v) && /^\s*"?-?\d+([.,]\d+)?"?\s*$/.test(osat[j])) { arvo = v; break; } }
+      if (isNaN(arvo) || arvo < 0) return;
+      var w = aika.d === 0 || aika.d === 6 ? 1 : 0;
+      kwh[aika.m * 48 + w * 24 + aika.h] += arvo; yht += arvo;
+      if (aika.t < min) min = aika.t; if (aika.t > max) max = aika.t;
+    });
+    if (yht <= 0) return null;
+    var paivat = Math.max(1, (max - min) / 864e5 + 1 / 24);
+    var sp = 0; for (var k = 0; k < 576; k++) sp += kwh[k] * (T[k] || 0);
+    return { kwh: yht, paivat: paivat, spot: sp / yht, vuosi: paivat >= 360 ? yht * 365 / paivat : yht * 365 / paivat };
+  }
+  var tiedosto = $("datahubTiedosto");
+  if (tiedosto) tiedosto.addEventListener("change", function () {
+    var f = this.files && this.files[0]; if (!f) return;
+    var lukija = new FileReader();
+    lukija.onload = function () {
+      var r = lueCsv(String(lukija.result));
+      var tulos = $("datahubTulos");
+      if (!r) { tulos.textContent = "Tiedostosta ei löytynyt kulutustietoja. Tarkista, että lataat Datahubin CSV-tiedoston tunti- tai varttiarvoilla."; return; }
+      document.querySelectorAll("[data-profiili]").forEach(function (x) { x.classList.remove("valittu"); x.setAttribute("aria-pressed", "false"); });
+      asetaKwh(Math.round(r.vuosi / 100) * 100);
+      asetaSpot(r.spot, profiiliTeksti(r.spot));
+      tulos.innerHTML = "Luettu " + e(r.kwh) + " kWh " + e(r.paivat) + " päivältä" + (r.paivat < 360 ? ", muunnettu vuositasolle" : "") + ". Tiedosto käsiteltiin vain selaimessasi, eikä sitä lähetetty minnekään.";
+    };
+    lukija.readAsText(f);
+  });
+
   function paivitaPikkuliuku(id, ulos, muoto) {
     var el = $(id), max = +el.max || 1;
     el.style.setProperty("--tayttö", (el.value / max * 100) + "%");
@@ -179,7 +267,8 @@
     if (window.innerWidth < 900) $("tulosalue").scrollIntoView({ behavior: "smooth" });
   });
 
-  $("spot").value = String(window.OLETUS_POSSI_KESKIHINTA).replace(".", ",");
+  $("spot").value = d2(T.length ? PERUS_SPOT : window.OLETUS_POSSI_KESKIHINTA).replace(/\s/g, "");
+  if ($("profiiliTulos") && T.length) $("profiiliTulos").innerHTML = profiiliTeksti(PERUS_SPOT);
   var pv = new Date(window.SOPIMUKSET_PAIVITETTY).toLocaleDateString("fi-FI");
   document.querySelectorAll("[data-paivitetty]").forEach(function (x) { x.textContent = pv; });
   asetaKwh(tila.kwh);
