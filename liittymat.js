@@ -2,7 +2,7 @@
    hinta = normaalihinta €/kk · kampanja = {hinta, kk} uusille asiakkaille · avaus = avausmaksu €
    puhelut: "rajaton" tai käytön mukaan (minuuttihinta kuvattu tekstinä)
    url: operaattorin liittymäsivu · linkki: affiliate-linkki (kun saatu)
-   Lähteet: Moi, Oomi ja Telia omat sivut 18.11.2026; DNA operaattorin sivut 11.11.2026; Elisa: puhelinliittymat.fi 8.11.2026 (tarkista elisa.fi:stä). */
+   Lähteet: Moi, Oomi ja Telia omat sivut 18.11.2026; DNA operaattorin sivut 11.11.2026. Vain operaattorien omat sivut, ei vertailupalveluja. */
 window.LIITTYMAT_PAIVITETTY = "2026-11-18";
 var AL = { moi: "https://in.moi.fi/t/t?a=1119688036&as=2130009455&t=2&tk=1", oomi: "https://go.adt284.net/t/t?a=2063084901&as=2130009455&t=2&tk=1", telia: "https://go.adt291.com/t/t?a=1553065612&as=2130009455&t=2&tk=1" };
 var LU = { moi: "https://www.moi.fi/liittymat", dna: "https://www.dna.fi/puhelinliittymat", telia: "https://kauppa.telia.fi/yksityisille/tuotteet/puhelinliittymat.aspx", oomi: "https://oomi.fi/mobiili/", elisa: "https://elisa.fi/kauppa/puhelinliittymat" };
@@ -31,12 +31,5 @@ window.LIITTYMAT = [
   // Nettiliittymät (mobiililaajakaista)
   {laji:"netti", operaattori:"Oomi", nimi:"Mobiili Netti 4G 100M", nopeus:100, verkko:"4G", data:"rajaton", puhelut:"–", rajatonPuhe:true, hinta:21.99, sopimus:"Toistaiseksi", avaus:5, euData:35, huom:"Avausmaksu 0 € 23.11.2026 asti.", url:LU.oomi, linkki:AL.oomi},
   {laji:"netti", operaattori:"Oomi", nimi:"Mobiili Netti 5G 300M", nopeus:300, verkko:"5G", data:"rajaton", puhelut:"–", rajatonPuhe:true, hinta:26.99, sopimus:"Toistaiseksi", avaus:5, euData:45, huom:"Avausmaksu 0 € 23.11.2026 asti.", url:LU.oomi, linkki:AL.oomi},
-  {laji:"netti", operaattori:"Moi", nimi:"Laitenetti", nopeus:0.5, verkko:"4G", data:"rajaton", puhelut:"–", rajatonPuhe:true, hinta:6, sopimus:"Toistaiseksi", euData:0, huom:"Lataus 0,5 Mbit/s, lähetys 10 Mbit/s. Valvontakameraan, mökin laitteisiin ja älylaitteisiin. Toimii vain Suomessa.", url:LU.moi, linkki:AL.moi},
-  // Elisa (lähde puhelinliittymat.fi – tarkista)
-  {operaattori:"Elisa", nimi:"Mini 10M", nopeus:10, verkko:"4G", data:"rajaton", puhelut:"0,099 €/min", rajatonPuhe:false, hinta:20.99, url:LU.elisa, linkki:""},
-  {operaattori:"Elisa", nimi:"Huoleton 20M", nopeus:20, verkko:"4G", data:"rajaton", puhelut:"rajaton", rajatonPuhe:true, hinta:27.99, url:LU.elisa, linkki:""},
-  {operaattori:"Elisa", nimi:"Huoleton 150M", nopeus:150, verkko:"4G", data:"rajaton", puhelut:"rajaton", rajatonPuhe:true, hinta:33.99, url:LU.elisa, linkki:""},
-  {operaattori:"Elisa", nimi:"Huoleton 5G+ 400M", nopeus:400, verkko:"5G", data:"rajaton", puhelut:"rajaton", rajatonPuhe:true, hinta:34.99, url:LU.elisa, linkki:""},
-  {operaattori:"Elisa", nimi:"Huoleton 5G+ 600M", nopeus:600, verkko:"5G", data:"rajaton", puhelut:"rajaton", rajatonPuhe:true, hinta:38.99, url:LU.elisa, linkki:""},
-  {operaattori:"Elisa", nimi:"Huoleton 5G+ 1000M", nopeus:1000, verkko:"5G", data:"rajaton", puhelut:"rajaton", rajatonPuhe:true, hinta:50.99, url:LU.elisa, linkki:""}
+  {laji:"netti", operaattori:"Moi", nimi:"Laitenetti", nopeus:0.5, verkko:"4G", data:"rajaton", puhelut:"–", rajatonPuhe:true, hinta:6, sopimus:"Toistaiseksi", euData:0, huom:"Lataus 0,5 Mbit/s, lähetys 10 Mbit/s. Valvontakameraan, mökin laitteisiin ja älylaitteisiin. Toimii vain Suomessa.", url:LU.moi, linkki:AL.moi}
 ];
