@@ -1,16 +1,19 @@
 (function () {
   var LOGOT = { "Telia": "telia", "Moi": "moi", "Oomi": "oomi" };
-  function logo(o) { return LOGOT[o] ? '<img class="tulos-logo" src="/kuvat/logot/' + LOGOT[o] + '.png" alt="' + o + '" width="150" height="50" loading="lazy">' : '<span class="tulos-logo teksti">' + o + '</span>'; }
+  function logo(o) { return LOGOT[o] ? '<img class="tulos-logo" src="/kuvat/logot/' + LOGOT[o] + '.png" alt="' + o + '" width="150" height="50" loading="lazy">' : ''; }
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
   if (!$("liittymatulokset")) return;
-  var tila = { laji: "puhe", tarve: "kaikki", nMin: 0, nMax: 500, verkko: "kaikki", rajatonPuhe: false, eiMaaraaikaa: false, operaattorit: {}, jarjestys: "k12", kaikki: false };
+  var tila = { laji: document.body.dataset.laji || "puhe", tarve: "kaikki", nMin: 0, nMax: 500, verkko: "kaikki", rajatonPuhe: false, eiMaaraaikaa: false, operaattorit: {}, jarjestys: "k12", kaikki: false };
   var NAYTA = 8;
   var TARPEET = {
     kaikki: { min: 0, max: 500 },
     perus: { min: 0, max: 50 },
     paljon: { min: 50, max: 300 },
-    nopein: { min: 300, max: 500 }
+    nopein: { min: 300, max: 500 },
+    mokki: { min: 0, max: 50 },
+    koti: { min: 100, max: 300 },
+    perhe: { min: 300, max: 500 }
   };
   function e(n) { return Math.round(n).toLocaleString("fi-FI"); }
   function d2(n) { return n.toLocaleString("fi-FI", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -121,11 +124,11 @@
     b.addEventListener("click", function () {
       tila.laji = b.dataset.laji; tila.kaikki = false;
       document.querySelectorAll("[data-laji]").forEach(function (x) { x.classList.toggle("aktiivinen", x === b); x.setAttribute("aria-pressed", x === b); });
-      var rp = $("rajatonPuhe"); rp.closest("label").hidden = tila.laji === "netti";
+      var rp = $("rajatonPuhe"); if (rp) rp.closest("label").hidden = tila.laji === "netti";
       paivita();
     });
   });
-  $("rajatonPuhe").addEventListener("change", function () { tila.rajatonPuhe = this.checked; paivita(); });
+  if ($("rajatonPuhe")) $("rajatonPuhe").addEventListener("change", function () { tila.rajatonPuhe = this.checked; paivita(); });
   $("eiMaaraaikaa").addEventListener("change", function () { tila.eiMaaraaikaa = this.checked; paivita(); });
   $("operaattorit").addEventListener("change", function (ev) { tila.operaattorit[ev.target.value] = ev.target.checked; paivita(); });
   $("ljarjestys").addEventListener("change", function () { tila.jarjestys = this.value; paivita(); });

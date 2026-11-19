@@ -41,7 +41,7 @@
     return sw ? sp / sw : window.OLETUS_POSSI_KESKIHINTA;
   }
   function profiiliSpot(nimi) { var P = PROFIILIT[nimi]; return painotettu(function (m, w, h) { return P.m[m] * P.h[h]; }); }
-  var PERUS_SPOT = T.length ? profiiliSpot("tasainen") : window.OLETUS_POSSI_KESKIHINTA;
+  var PERUS_SPOT = window.OLETUS_POSSI_KESKIHINTA;
   function kuukausihinta(c, kk, spot, alkuKaytossa) {
     var a = null;
     if (alkuKaytossa && c.vaiheet) for (var i = 0; i < c.vaiheet.length; i++) { if (kk <= c.vaiheet[i].asti) { a = c.vaiheet[i]; break; } }
@@ -153,8 +153,8 @@
       tiedot.push("Energian hinta: " + hintaTxt);
       tiedot.push("Perusmaksu: " + d2(c.maksu) + " €/kk" + (c.alku && c.alku.maksu !== undefined ? " (tarjousjaksolla " + d2(c.alku.maksu) + " €/kk)" : ""));
       if (c.alku && c.alku.marginaali !== undefined) tiedot.push("Marginaali tarjousjaksolla " + d2(c.alku.marginaali) + " snt/kWh");
-      if (c.tyyppi === "kulutusvaikutteinen") tiedot.push("Arvioitu kulutusvaikutus kulutusprofiilillasi " + (spot - PERUS_SPOT >= 0 ? "+" : "") + d2(spot - PERUS_SPOT) + " snt/kWh");
-      if (c.tyyppi === "porssi" || c.tyyppi === "hybridi") tiedot.push("Laskelmassa pörssihinta kulutusprofiilillasi " + d2(spot) + " snt/kWh");
+      if (c.tyyppi === "kulutusvaikutteinen") tiedot.push("Arvioitu kulutusvaikutus kulutuksellasi " + (spot - PERUS_SPOT >= 0 ? "+" : "") + d2(spot - PERUS_SPOT) + " snt/kWh");
+      if (c.tyyppi === "porssi" || c.tyyppi === "hybridi") tiedot.push("Laskelmassa pörssihinta " + d2(spot) + " snt/kWh");
       if (jatkoEro) tiedot.push("Tarjousjakson jälkeen arviolta " + e(r.jatko.yht) + " €/v");
       if (c.huom) tiedot.push(esc(c.huom));
       return '<article class="tulos' + (i === 0 ? " paras" : "") + '">' +
@@ -197,7 +197,7 @@
   }
   function profiiliTeksti(v) {
     var ero = v - window.OLETUS_POSSI_KESKIHINTA;
-    return 'Pörssisähkön hinta kulutuksellasi: <b>' + d2(v) + ' snt/kWh</b> (12 kk keskiarvo ' + d2(window.OLETUS_POSSI_KESKIHINTA) + ' snt, ' + (ero >= 0 ? "+" : "") + d2(ero) + ' snt).';
+    return 'Pörssisähkön hinta toteutuneella kulutuksellasi: <b>' + d2(v) + ' snt/kWh</b> (12 kk keskiarvo ' + d2(window.OLETUS_POSSI_KESKIHINTA) + ' snt, ' + (ero >= 0 ? "+" : "") + d2(ero) + ' snt).';
   }
   document.querySelectorAll("[data-profiili]").forEach(function (b) {
     b.addEventListener("click", function () {
@@ -248,7 +248,7 @@
       document.querySelectorAll("[data-profiili]").forEach(function (x) { x.classList.remove("valittu"); x.setAttribute("aria-pressed", "false"); });
       asetaKwh(Math.round(r.vuosi / 100) * 100);
       asetaSpot(r.spot, profiiliTeksti(r.spot));
-      tulos.innerHTML = "Luettu " + e(r.kwh) + " kWh " + e(r.paivat) + " päivältä" + (r.paivat < 360 ? ", muunnettu vuositasolle" : "") + ". Tiedosto käsiteltiin vain selaimessasi, eikä sitä lähetetty minnekään.";
+      tulos.innerHTML = profiiliTeksti(r.spot) + "<br>Luettu " + e(r.kwh) + " kWh " + e(r.paivat) + " päivältä" + (r.paivat < 360 ? ", muunnettu vuositasolle" : "") + ". Tiedosto käsiteltiin vain selaimessasi, eikä sitä lähetetty minnekään.";
     };
     lukija.readAsText(f);
   });
@@ -273,8 +273,7 @@
     if (window.innerWidth < 900) $("tulosalue").scrollIntoView({ behavior: "smooth" });
   });
 
-  $("spot").value = d2(T.length ? PERUS_SPOT : window.OLETUS_POSSI_KESKIHINTA).replace(/\s/g, "");
-  if ($("profiiliTulos") && T.length) $("profiiliTulos").innerHTML = profiiliTeksti(PERUS_SPOT);
+  $("spot").value = d2(window.OLETUS_POSSI_KESKIHINTA).replace(/\s/g, "");
   var pv = new Date(window.SOPIMUKSET_PAIVITETTY).toLocaleDateString("fi-FI");
   document.querySelectorAll("[data-paivitetty]").forEach(function (x) { x.textContent = pv; });
   asetaKwh(tila.kwh);
