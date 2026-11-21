@@ -5,7 +5,7 @@
    ilmainenKk: kWh/kk, joihin ei lisätä marginaalia (Vattenfall Helppo).
    Lähteet: VAIN kumppanin omat sivut tai Adtraction-ohjelmakuvaus, ei koskaan kilpailijoiden vertailusivuja.
    Tarkistettu 18.11.2026: fortum.com, oomi.fi, cheapenergy.fi, vihreaenergia.fi, hehkuenergia.fi, vattenfall.fi, aaltoenergia.com, nordicgreen.fi. */
-window.SOPIMUKSET_PAIVITETTY = "2026-11-18";
+window.SOPIMUKSET_PAIVITETTY = "2026-11-21";
 window.OLETUS_POSSI_KESKIHINTA = 6.88; // 12 kk keskiarvo 11/2025–10/2026, sis. alv
 var L = function (a) { return "https://go.adt246.net/t/t?a=" + a + "&as=2130009455&t=2&tk=1"; };
 var A = {
@@ -43,7 +43,7 @@ window.SOPIMUKSET = [
   {tarjoaja:"Cheap Energy", nimi:"Määräaikainen 36 kk", tyyppi:"kiintea24", hinta:10.19, maksu:4.65, vaiheet:[{asti:3, maksu:0}], maxKwh:50000, kesto:"36 kk", huom:"Perusmaksu 0 € kolme kuukautta.", linkki:A.cheap},
   {tarjoaja:"Cheap Energy", nimi:"Määräaikainen 24 kk", tyyppi:"kiintea24", hinta:10.38, maksu:4.45, vaiheet:[{asti:4, maksu:0}], maxKwh:50000, kesto:"24 kk", huom:"Perusmaksu 0 € neljä kuukautta.", linkki:A.cheap},
   // Vihreä Älyenergia
-  {tarjoaja:"Vihreä Älyenergia", nimi:"Verraton", tyyppi:"porssi", marginaali:0.59, maksu:4.99, vaiheet:[{asti:12, maksu:0, marginaali:0.42}], kesto:"Toistaiseksi", huom:"Fossiiliton sähkö. Perusmaksu 0 € ja marginaali 0,42 snt 12 kk.", linkki:A.via(1902900993)},
+  {tarjoaja:"Vihreä Älyenergia", nimi:"Verraton", tyyppi:"porssi", marginaali:0.59, maksu:4.99, vaiheet:[{asti:6, marginaali:0}], kesto:"Toistaiseksi", huom:"Tarjous: ei marginaalia ensimmäiset 6 kk, sen jälkeen 0,59 snt/kWh. Fossiiliton sähkö. 2 viikon irtisanomisaika.", linkki:A.via(1902900993)},
   {tarjoaja:"Vihreä Älyenergia", nimi:"Voima", tyyppi:"porssi", marginaali:0.79, maksu:5.99, vaiheet:[{asti:4, maksu:0, marginaali:0.27}], kesto:"Toistaiseksi", huom:"Fossiiliton sähkö.", linkki:A.via(1902900993)},
   {tarjoaja:"Vihreä Älyenergia", nimi:"Hintalukko", tyyppi:"porssi", marginaali:0.59, maksu:4.99, kesto:"Toistaiseksi", huom:"Pörssihinnan voi kiinnittää.", linkki:A.via(1902900993)},
   {tarjoaja:"Vihreä Älyenergia", nimi:"Vire Tuuli Pörssisähkö", tyyppi:"porssi", marginaali:0.99, maksu:5.99, vaiheet:[{asti:6, maksu:1.99, marginaali:0.39}], kesto:"Toistaiseksi", huom:"100 % tuulisähköä.", linkki:A.via(1902900993)},
@@ -69,10 +69,9 @@ window.SOPIMUKSET = [
   {tarjoaja:"Aalto Energia", nimi:"Ankkuri Kiinteä 24 kk", tyyppi:"kiintea24", hinta:10.69, maksu:5.95, vaiheet:[{asti:3, maksu:0}], maxKwh:10000, kesto:"24 kk", linkki:A.aalto},
   {tarjoaja:"Aalto Energia", nimi:"Ankkuri Kiinteä 12 kk", tyyppi:"kiintea12", hinta:11.89, maksu:5.95, vaiheet:[{asti:1, maksu:0}], maxKwh:10000, kesto:"12 kk", linkki:A.aalto},
   {tarjoaja:"Aalto Energia", nimi:"Ankkuri Kiinteä 9 kk", tyyppi:"kiintea12", hinta:12.69, maksu:5.95, vaiheet:[{asti:1, maksu:0}], maxKwh:10000, kesto:"9 kk", linkki:A.aalto},
-  // Nordic Green Energy (nordicgreen.fi/sahkosopimus 18.11.2026)
-  {tarjoaja:"Nordic Green Energy", nimi:"Pörssisähkö", tyyppi:"porssi", marginaali:0.68, maksu:5.98, vaiheet:[{asti:6, maksu:0, marginaali:0.34}], kesto:"Toistaiseksi", huom:"Kampanja voimassa 19.11.2026 asti: kuukausimaksu 0 € ja marginaali 0,34 snt/kWh ensimmäiset 6 kuukautta. Alkuperätodennettua fossiilivapaata ydinvoimaa. 14 vuorokauden irtisanomisaika.", linkki:A.nge, sivu:NGES},
-  {tarjoaja:"Nordic Green Energy", nimi:"Pörssisähkö ilman kuukausimaksua", tyyppi:"porssi", marginaali:1.49, maksu:0, kesto:"Toistaiseksi", huom:"Eri sopimus kuin kampanjan Pörssisähkö: ei kuukausimaksua lainkaan, marginaali 1,49 snt/kWh. Alkuperätodennettua fossiilivapaata ydinvoimaa.", linkki:L(1138376807), sivu:NGES},
-  {tarjoaja:"Nordic Green Energy", nimi:"Kiinteä Sähkö 12 kk", tyyppi:"kiintea12", hinta:11.41, maksu:5.98, vaiheet:[{asti:2, maksu:0}], maxKwh:20000, kesto:"12 kk", huom:"Kuukausimaksu 0 € kaksi ensimmäistä kuukautta. Vuosikulutus alle 20 000 kWh.", linkki:L(1138376807), sivu:NGES},
-  {tarjoaja:"Nordic Green Energy", nimi:"Hybridi 24 kk", tyyppi:"kulutusvaikutteinen", hinta:9.99, maksu:5.98, maxKwh:3000, kesto:"24 kk", huom:"Kiinteä hinta + kulutusvaikutus. Vuosikulutus alle 3 000 kWh.", linkki:L(1138376807), sivu:NGES},
+  // Nordic Green Energy (nordicgreen.fi/sahkosopimus ja /adtraction 21.11.2026, Black Friday -tarjoukset 30.11.2026 asti)
+  {tarjoaja:"Nordic Green Energy", nimi:"Pörssisähkö", tyyppi:"porssi", marginaali:1.49, maksu:0, vaiheet:[{asti:6, marginaali:0.48}], kesto:"Toistaiseksi", huom:"Black Friday -tarjous 30.11.2026 asti: ei kuukausimaksua, marginaali 0,48 snt/kWh ensimmäiset 6 kk, sen jälkeen 1,49 snt/kWh. Alkuperätodennettua fossiilivapaata ydinvoimaa. 14 vuorokauden irtisanomisaika.", linkki:A.nge, sivu:NGES},
+  {tarjoaja:"Nordic Green Energy", nimi:"Kiinteä Sähkö 24 kk", tyyppi:"kiintea24", hinta:10.79, maksu:5.98, vaiheet:[{asti:6, maksu:0}], maxKwh:20000, kesto:"24 kk", huom:"Black Friday -tarjous 30.11.2026 asti: kuukausimaksu 0 € kuusi ensimmäistä kuukautta. Vuosikulutus alle 20 000 kWh.", linkki:L(1138376807), sivu:NGES},
+  {tarjoaja:"Nordic Green Energy", nimi:"Kiinteä Sähkö 12 kk", tyyppi:"kiintea12", hinta:11.41, maksu:5.98, vaiheet:[{asti:3, maksu:0}], maxKwh:20000, kesto:"12 kk", huom:"Black Friday -tarjous 30.11.2026 asti: kuukausimaksu 0 € kolme ensimmäistä kuukautta. Vuosikulutus alle 20 000 kWh.", linkki:L(1138376807), sivu:NGES},
   {tarjoaja:"Nordic Green Energy", nimi:"Älylataajan pörssisähkö", tyyppi:"porssi", marginaali:0.59, maksu:12.99, kesto:"Toistaiseksi", huom:"Sähköautoilijoille: jokaisen kuukauden ensimmäiset 175 kWh yölatausta ilman spot-hintaa ja marginaalia (ei huomioitu laskelmassa). Sisältää Nordic Green Plus -ominaisuudet. Tarjous voimassa 15.12.2026 asti.", linkki:L(1138376807), sivu:NGES}
 ];
